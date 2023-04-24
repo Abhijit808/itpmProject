@@ -4,6 +4,8 @@ import {
 import App from '../pages/App'
 import Login from "../pages/Login";
 import Notfound from "../pages/Notfound";
+import Dashboard from "../pages/Dashboard";
+import Protectedroute from "./Protectedroute";
 const router = createBrowserRouter([
   {
     path:'/',
@@ -12,6 +14,14 @@ const router = createBrowserRouter([
   {
     path:'/Signup',
     element:<App/>
+  },
+  {
+    path:'/Dashboard',
+    element:(
+      <Protectedroute>
+            <Dashboard/>
+      </Protectedroute>
+    )
   },
   {
     path:'*',
