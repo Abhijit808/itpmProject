@@ -9,7 +9,8 @@ const Dashboard = () => {
     <>
     <nav className="flex justify-around items-center my-5">
        <div className="font-Abel text-3xl">Dashboard</div>
-       <button className="logout underline font-Abel" onClick={async()=>{await auth.logout(); navigate('/') }} >LOGOUT</button>
+       <button className="logout underline font-Abel" onClick={()=>{auth.logout().then((res:any)=>{console.log(res)
+       }); navigate('/') }} >LOGOUT</button>
     </nav>
     <main>
       <h3>{auth.user.email}</h3>

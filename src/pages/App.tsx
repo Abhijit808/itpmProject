@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import React, { useContext, useState } from 'react'
 import {Authprovider} from "../context/Authcontext"
@@ -6,6 +6,7 @@ const App = ()=>{
   const [username,setusername]= useState<string>("")
   const [password,setpassword]= useState<string>("")
   const handleauth = useContext(Authprovider)
+  const navigate =  useNavigate()
  const handlesubmit = async (e:React.FormEvent<HTMLFormElement>)=>{
   e.preventDefault();
   if (username === ''||password === '') {
@@ -13,8 +14,9 @@ const App = ()=>{
       return
   }
  const res =  await handleauth.signupwithemail(username,password);
- console.log(res);
-   
+       if(res){
+        navigate('/')
+       }   
  }
   return (
     <>
