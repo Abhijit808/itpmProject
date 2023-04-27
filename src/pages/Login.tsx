@@ -16,10 +16,10 @@ const Login = () => {
         try{
             
             setloading(true);
-           const res =  await signinwithemail(usernameref.current!.value, passwordref.current!.value)
-           if (res) {
-               return navigate('/Dashboard'); 
-           }
+            await signinwithemail(usernameref.current!.value, passwordref.current!.value)
+                navigate('/'); 
+          
+        
             // console.log(res);
         }
 

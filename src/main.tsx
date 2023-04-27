@@ -1,17 +1,33 @@
-import React, {  } from 'react'
+import React, { } from 'react'
 import ReactDOM from 'react-dom/client'
 import './styles/index.css'
-import { RouterProvider } from 'react-router-dom'
-import router from './router/router.tsx'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+// import router from './router/router.tsx'
 import Authcontext from './context/Authcontext.tsx'
+import Login from './pages/Login.tsx'
+import Dashboard from './pages/Dashboard.tsx'
+import Protectedroute from './router/Protectedroute.tsx'
 // import Authcontext from './context/Authcontext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  
-    <React.StrictMode>
+
+  <React.StrictMode>
+    <BrowserRouter>
       <Authcontext>
-        <RouterProvider router = {router}/>
+        <Routes>
+
+          <Route path={'/'}
+            element={
+              (
+                <Protectedroute>
+                  <Dashboard />
+                </Protectedroute>
+              )}
+          />
+          <Route path={'/login'} element={<Login />} />
+        </Routes>
       </Authcontext>
-    </React.StrictMode>
-   
+    </BrowserRouter>
+  </React.StrictMode>
+
 )

@@ -2,25 +2,25 @@ import { createUserWithEmailAndPassword,signInWithEmailAndPassword, signOut} fro
 import{ auth} from './firebaseconfgig'
 const signup = async(email:string,password:string)=>{
     try {
-        const signupwithemail = await createUserWithEmailAndPassword(auth,email,password)
-        const res = await signupwithemail
+        const login = await createUserWithEmailAndPassword(auth,email,password)
+        const res = await login
         return res    
     } catch (error) {
-        return error
+       console.log(error);
+       
     }
 }
 
 
 const signin = async(email:string,password:string)=>{
-    try{
-        const signinwithemail = await signInWithEmailAndPassword(auth,email,password)
-        const res = await signinwithemail;
+    // try{
+        const sign = await signInWithEmailAndPassword(auth,email,password)
+        const res = await sign;
         return res
-    }
-    catch(err){
-        console.log(err);
-        
-    }
+    // }
+   
+    
+    
 }
 const signout = async()=>{
     try{
