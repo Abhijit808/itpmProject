@@ -1,4 +1,4 @@
-import React, { } from 'react'
+// import React, { } from 'react'
 import ReactDOM from 'react-dom/client'
 import './styles/index.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
@@ -7,27 +7,37 @@ import Authcontext from './context/Authcontext.tsx'
 import Login from './pages/Login.tsx'
 import Dashboard from './pages/Dashboard.tsx'
 import Protectedroute from './router/Protectedroute.tsx'
+import ModelProvider from './context/ModelProvider.tsx'
 // import Authcontext from './context/Authcontext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <Authcontext>
-        <Routes>
-
-          <Route path={'/'}
-            element={
-              (
-                <Protectedroute>
-                  <Dashboard />
-                </Protectedroute>
-              )}
-          />
-          <Route path={'/login'} element={<Login />} />
-        </Routes>
+        <ModelProvider>
+          <Routes>
+            <Route path={'/'}
+              element={
+                (
+                  <Protectedroute>
+                    <Dashboard />
+                  </Protectedroute>
+                )}
+            />
+            <Route path={'/folders/:folderid'}
+              element={
+                (
+                  <Protectedroute>
+                    <Dashboard />
+                  </Protectedroute>
+                )}
+            />
+            <Route path={'/login'} element={<Login />} />
+          </Routes>
+        </ModelProvider>
       </Authcontext>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 
 )

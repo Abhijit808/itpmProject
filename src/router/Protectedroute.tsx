@@ -5,7 +5,7 @@ import { Authprovider } from "../context/Authcontext"
 const Protectedroute = ({ children}: { children: ReactElement}) => {
   const auth = useContext(Authprovider);
 
-  console.log(auth);
+  // console.log(auth);
   if(auth.user){
       return children
   }  

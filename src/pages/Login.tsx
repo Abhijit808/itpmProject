@@ -25,7 +25,7 @@ const Login = () => {
 
         catch(error:unknown){
             if(error instanceof FirebaseError){
-                setmsg(error.message)
+                setmsg("invalid email/password Cannot LOGIN")
             }
         }
         
@@ -44,7 +44,7 @@ return (
             loading ? <div className="loading">loading...</div> :
                 <aside className="flex justify-center items-center flex-col h-[100vh] gap-5 ">
                     {
-                        msg ? <div>{msg}</div> : null
+                        msg ? <h3 className="font-Abel text-xl bg-red-700 bg-opacity-100 text-white py-2 px-4" >{msg}</h3> : null
 
                     }
                     <form className="flex flex-wrap flex-col justify-between items-stretch w-fit gap-5 py-5 px-5 shadow-lg shadow-blue-700 " onSubmit={handlesubmit}>
@@ -56,7 +56,7 @@ return (
                         </div>
                         <div className="inputs flex flex-col gap-2">
                             <span className="font-Abel text-xl">Password</span>
-                            <input type="text" name="" id="" className="border-2 p-1 border-blue-700" ref={passwordref} />
+                            <input type="password" name="" id="password" className="border-2 p-1 border-blue-700" ref={passwordref} />
                         </div>
                         <div className="btns flex flex-col gap-5 cursor-pointer">
 
