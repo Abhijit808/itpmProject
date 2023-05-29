@@ -34,6 +34,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                 )}
             />
             <Route path={'/login'} element={<Login />} />
+            <Route path={'*'} element={<div>404</div>} />
           </Routes>
         </ModelProvider>
       </Authcontext>

@@ -1,13 +1,14 @@
 
-import { useContext, useEffect, useState } from "react"
+import { ChangeEvent, useContext, useEffect, useState } from "react"
 import { Authprovider } from "../context/Authcontext"
 import { useNavigate, useParams } from "react-router-dom";
 import Model from "../components/Model"
 // import { Modelcontext } from "../context/ModelProvider";
-import { DocumentData, addDoc, collection, getDocs, query, serverTimestamp, where } from "firebase/firestore";
-import { store } from "../firebase/firebaseconfgig";
+import { DocumentData, addDoc, collection, doc, getDoc, getDocs, query, serverTimestamp, where } from "firebase/firestore";
+import { storage, store } from "../firebase/firebaseconfgig";
 import Folders from "../components/Folders";
 import { FirebaseError } from "firebase/app";
+import { ref, uploadBytes } from "firebase/storage";
 const Dashboard = () => {
   const { folderid } = useParams()
   // console.log(folderid);
@@ -27,7 +28,8 @@ const Dashboard = () => {
   }
   const navigate = useNavigate();
   const auth = useContext(Authprovider);
-  // const { input } = useContext(Modelcontext);
+  const [count,setcount] = useState<number>(0)
+  const [file, setfile] = useState<File | null>();
   const [loading, setloading] = useState<boolean>(false)
   const [folders, setfolders] = useState<Array<folders | DocumentData>>([{
     data: {
@@ -62,8 +64,8 @@ const Dashboard = () => {
     })
     console.log(foldersref.id);
     // setfoldersref(foldersref.id);    
-    console.log(input);
-    console.log("clicked");
+    // console.log(input);
+    // console.log("clicked");
   }
 
 
@@ -73,12 +75,14 @@ const Dashboard = () => {
     const getdata = async () => {
       try {
         if (folderid === undefined) {
+          // console.log("here");
+
           const f = query(collection(store, "folders"), where('createdby', '==', auth.user.uid), where('parentid', '==', null))
           const querySnapshot = await getDocs(f)
           querySnapshot.forEach(q => {
             setfolders(prev => [...prev, { data: q.data(), uid: q.id }])
-            setloading(false)
           })
+          setloading(false)
         }
         else {
           const f = query(collection(store, "folders"), where('createdby', '==', auth.user.uid), where('parentid', '==', folderid))
@@ -89,8 +93,8 @@ const Dashboard = () => {
               uid: q.id
             }
             setfolders(prev => [...prev, s])
-            setloading(false)
           })
+          setloading(false)
 
         }
       }
@@ -104,9 +108,32 @@ const Dashboard = () => {
     getdata()
 
   }, [folderid])
-  const handlechange = () => {
-
+  const handlechange = (e: ChangeEvent<HTMLInputElement>) => {
+    setfile(e.target.files?.[0]);
   }
+  const  handleupload = ()=>{
+   setcount(prev=>prev+1)
+  }
+  useEffect(()=>{
+      const uploadfile = async () => {
+
+      if (folderid !== undefined) {
+        const docref = doc(collection(store, "folders"), folderid)
+        const data = await getDoc(docref);
+        var info  = data.data();
+        // console.log(info?.path);
+        
+      }
+      const r = ref(storage, `${folderid === undefined ? "Root" : `/${info?.path}/${file?.name}`}`)
+      uploadBytes(r, file).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+      });
+    }
+    uploadfile()
+    },[folderid,count]);
+    // const f = query(collection(store, "folders"),where('createdby', '==', auth.user.uid),where(d, '==', folderid))
+  console.log(file);
+
   return (
 
     <>
@@ -133,8 +160,10 @@ const Dashboard = () => {
                   </p>
                   <input type="file" className="absolute right-[10000px]" onChange={handlechange} />
                 </label>
+                <button  onClick={handleupload}>upload</button>
               </nav>
               <Folders folder={folders} />
+
             </main >
           </>
       }
