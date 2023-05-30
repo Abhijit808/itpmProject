@@ -15,11 +15,6 @@ const inputref = useRef<HTMLInputElement>(null)
   const handleok =()=>{
     setshowmodel(false);
     onsave===undefined?null:onsave(inputref.current!.value);
-    // console.log(inputref.current!.value);
-    
-    // val.setinput([inputref.current!.value])
-    // console.log(val.input);
-    // val.setinput("")
   }
   return (
     <>
