@@ -7,12 +7,14 @@ import Model from "../components/Model"
 import { DocumentData} from "firebase/firestore";
 // import {  storage, store } from "../firebase/firebaseconfgig";
 import Folders from "../components/Folders";
-
+import { AiFillFolderAdd } from "react-icons/ai";
 import Uploadfiles  from "../components/Uploadfiles";
 import folders from "../types/folder";
 import obj from "../types/obj";
 import { addData } from "../queries/adddoc";
 import { getData } from "../queries/getdocs";
+import { getsingledoc } from "../queries/getdoc";
+import { updatepath } from "../queries/updatepath";
 // import { ref, uploadBytes } from "firebase/storage";
 const Dashboard = () => {
   const { folderid } = useParams()
@@ -22,12 +24,15 @@ const Dashboard = () => {
   const [loading, setloading] = useState<boolean>(false)
   const [reload, setreload] = useState<boolean>(false)
   const [folders, setfolders] = useState<Array<folders | DocumentData>>([])
+  const [currentfolder,setcurrentfolder] = useState<folders|DocumentData>({})
+  const[path,setpath]  = useState<any>([])
 
   const handleclick = async (input: string) => {
+    setloading(true)
     const state: obj = {
       foldername: input,
       parentid: folderid,
-      path: "/",
+      path: [""],
       childfolders: [""],
       childfiles: [""],
       Createdat: "",
@@ -37,8 +42,9 @@ const Dashboard = () => {
       state.parentid = null
     }
    const data =  await addData(state)
-   setreload(true);
+   setloading(false)
    console.log(data.id);
+   setreload(true);
 }
 
 useEffect( ()=>{
@@ -53,15 +59,41 @@ useEffect( ()=>{
       
     })
     setloading(false)
+    setreload(false);
   }
   Data();
-  
+
 },[folderid,reload])
- console.log(!loading&&folders);
- 
+const getSingleDocs = async()=>{
+  if(folderid === undefined){
+    return
+  }
+  const current = await getsingledoc(folderid);
+  const currentfolder = {...current.data(),id:current.id}
 
-  return (
+    setcurrentfolder(currentfolder)
+}
 
+const UpadtePathDb = async(Path:[string])=>{
+  setpath([]);
+  if(Path.length === Number(0) ) return;
+  const response = await updatepath(currentfolder,Path);
+  console.log(response);
+  
+}
+const updatePath = (id:any)=>{
+  setpath((prev:any)=>[...prev,id]);
+  UpadtePathDb(path)
+}
+
+useEffect(()=>{
+  getSingleDocs();
+},[folderid])
+
+
+
+return (
+  
     <>
       {
         loading ?
@@ -78,11 +110,14 @@ useEffect( ()=>{
               }} >LOGOUT</button>
             </nav>
             <main>
-              <nav className="foldernav">
-                <Model btnText="createfolder" okBtn="save" closeBtn="cancel" modelText="create folder" onsave={handleclick} />
-                <Uploadfiles folders= {folders}/>
+              <nav className="foldernav w-[70%] mx-auto flex items-center gap-4">
+                <Model btnText={<AiFillFolderAdd/>} okBtn="save" closeBtn="cancel" modelText="create folder" onsave={handleclick} />
+                <Uploadfiles folders= {currentfolder}/>
               </nav>
-              <Folders folder={folders} />
+              <div className="w-[70%] mx-auto ">
+                
+              <Folders folder={folders} handleclick={updatePath}/>
+              </div>
 
             </main >
           </>
