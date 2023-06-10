@@ -35,6 +35,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             />
             <Route path={'/login'} element={<Login />} />
             <Route path={'*'} element={<div>404</div>} />
+            <Route path={'/error'} element={<div className='w-[100vw] h-[100vh] text-3xl font-Abel flex justify-center items-center'>Error</div>} />
           </Routes>
         </ModelProvider>
       </Authcontext>
