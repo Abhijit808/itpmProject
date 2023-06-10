@@ -4,6 +4,8 @@ import { store } from "../firebase/firebaseconfgig"
 export const updatepath = async(folder:any,path:any)=>{
     const collectionref = collection(store,"folders");
     const docref = doc(collectionref,folder.id);
+    // console.log(path);
+    
     const updatedPath = await updateDoc(docref,{
         "path":path
         

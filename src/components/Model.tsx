@@ -6,15 +6,15 @@ interface Modalprops {
   closeBtn: string | ReactNode,
   okBtn: string | ReactNode,
   value?:ReactNode,
-  onsave?:(value:any)=>void|any|undefined
+  onsave?:(value:any,folder?:any)=>void|any|undefined,folder:any
 }
-const Model = ({ btnText, modelText, closeBtn, okBtn,onsave }: Modalprops) => {
+const Model = ({ btnText, modelText, closeBtn, okBtn,onsave,folder }: Modalprops) => {
   const [showModel, setshowmodel] = useState<Boolean>(false);
 const inputref = useRef<HTMLInputElement>(null)
   // const val = useContext(Modelcontext)
   const handleok =()=>{
     setshowmodel(false);
-    onsave===undefined?null:onsave(inputref.current!.value);
+    onsave===undefined?null:onsave(inputref.current!.value,folder);
   }
   return (
     <>

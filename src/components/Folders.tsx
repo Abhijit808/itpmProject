@@ -5,23 +5,23 @@ import folders from "../types/folder"
 // import { updatepath } from "../queries/updatepath"
 
 
-const Folders = ({folder,handleclick}:{folder:Array<folders|DocumentData>,handleclick?:(value?:any)=>any}) => {
+const Folders = ({folder}:{folder:Array<folders|DocumentData>,handleclick?:(value:any,value1?:any)=>any}) => {
   
   return (
     <>
     {
       folder.map((f)=>{
         
-        const handleupdatepath = ()=>{
-          handleclick!==undefined&&handleclick(f.id);
+        // const handleupdatepath = ()=>{
+        //   handleclick!==undefined&&handleclick(f.id,f.parentid);
           
-        }
+        // }
         
         
         return(
           
           <Link to={`/folders/${f.id}`} key={f.id}>
-          <button  className="border-2 border-blue-700 px-4 py-2 m-2 cursor-pointer  font-Abel uppercase" onClick={handleupdatepath}>{f.foldername}</button>
+          <button  className="border-2 border-blue-700 px-4 py-2 m-2 cursor-pointer  font-Abel uppercase" >{f.foldername}</button>
         </Link>
         
         
