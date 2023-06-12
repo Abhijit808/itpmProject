@@ -91,7 +91,7 @@ const Dashboard = () => {
         setfolders(prev => [...prev, { ...d.data(), id: d.id }])
 
       })
-      console.log(6868);
+      // console.log(6868);
     }
     setloading(false)
 
@@ -112,16 +112,20 @@ const Dashboard = () => {
     setloading(false)
     // setreload(false);
     Files();
-  }, [folderid])
+  }, [folderid, reload])
   const getSingleDocs = async () => {
+
     if (folderid === undefined) {
       return
     }
+
     const current = await getsingledoc(folderid);
     const currentfolder = { ...current.data(), id: current.id }
-
     setcurrentfolder(currentfolder)
+
   }
+
+
   useEffect(() => {
     getSingleDocs();
   }, [folderid])
@@ -145,30 +149,30 @@ const Dashboard = () => {
               <div className="font-Abel text-3xl">Dashboard</div>
               <h3 className="font-Abel text-2xl">{auth.user.email}</h3>
               <div className="wrapper flex gap-2">
-              <div className="image w-10 h-10 rounded-full"><img src={auth.user.photoURL} alt={"profile"}  className="w-full h-full object-cover rounded-full"/></div>
-              <button className="logout underline font-Abel" onClick={() => {
-                auth.logout().then((res: any) => {
-                  console.log(res)
-                }); navigate('/')
-              }} >LOGOUT</button>
+                <div className="image w-10 h-10 rounded-full"><img src={auth.user.photoURL} alt={"profile"} className="w-full h-full object-cover rounded-full" /></div>
+                <button className="logout underline font-Abel" onClick={() => {
+                  auth.logout().then((res: any) => {
+                    console.log(res)
+                  }); navigate('/')
+                }} >LOGOUT</button>
               </div>
             </nav>
             <main>
               <nav className="foldernav w-[70%] mx-auto flex items-center gap-4">
                 <Model btnText={<AiFillFolderAdd />} okBtn="save" closeBtn="cancel" modelText="create folder" onsave={handleclick} folder={currentfolder} />
-                <Uploadfiles folders={currentfolder} />
+                <Uploadfiles folders={currentfolder} handlereload={forcereload} handleloading={forceloading} />
                 <UploadFolders folders={currentfolder} handlereload={forcereload} handleloading={forceloading} />
               </nav>
               <div className="w-[70%] mx-auto flex flex-col gap-5">
 
                 <div className="folders ">
-                  <h3 className="font-Abel text-2xl underline w-fit px-5 py-1 ml-2">{folderid===undefined? "ROOT":currentfolder.foldername}</h3>
+                  <h3 className="font-Abel text-2xl underline w-fit px-5 py-1 ml-2">{folderid === undefined ? "ROOT" : currentfolder.foldername}</h3>
                   <Folders folder={folders} />
                 </div>
                 {((folders.length > 0 || files.length > 0) || (folders.length > 0 && files.length > 0)) &&
                   <div className="line h-1 w-full bg-black rounded-sm "></div>
                 }
-                <div className="files">
+                <div className="files grid grid-cols-4 gap-3">
 
                   <Files files={files} />
                 </div>
