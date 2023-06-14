@@ -1,5 +1,5 @@
-// export const  listAllFilesAndDirs:any=async(dirHandle:any)=> {
-//   const files:any = [];
+export const  listAllFilesAndDirs:any=async(dirHandle:any)=> {
+  const files:any = [];
 //   for await (const [key, value] of dirHandle.entries()) {
   
 //     if(value.kind === 'directory'){
@@ -13,6 +13,10 @@
 //     }
     
 //   }
+for (const i of dirHandle) {
+    console.log(dirHandle[i]);
+    
+}
 //   // for await (let [name,handle] of dirHandle) {
 //   //     const {kind} = handle;
 //   //     let Name:string =""
@@ -25,5 +29,5 @@
 //   //       Name="";
 //   //     }
 //   // }
-//   return files;
-// }
+  return files;
+}

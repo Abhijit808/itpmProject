@@ -17,7 +17,6 @@ export const Store = async(uid:string,file:File,path:[string],id:any)=>{
     const download = await getDownloadURL(snapshot.ref);
     const fileobj = {
         createdby:uid,
-        name:snapshot.ref.name,
         path:path,
         url:download,
         foldername:id,
