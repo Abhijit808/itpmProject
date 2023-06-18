@@ -23,13 +23,14 @@ const UploadFolders = ({ folders, handlereload, handleloading }: { folders: fold
   const navigate = useNavigate();
   // const [loading, setloading] = useState<boolean>(false)
   const uploadfiles = async (folder: any, files: any, path: [string]) => {
-    if (files)
-      for (let i = 0; i < files.length; ++i) {
-        const file = files[i]; if (file === undefined) return;
-        f.Store(auth.user.uid, files[i], path, folder);
-        // handleloading(false);
-        // handlereload(true);
-      }
+    console.log(files);
+    
+    if (files){
+      const file = files; 
+      if (file === undefined) return;
+      f.Store(auth.user.uid, file, path, folder);
+    }
+      
     else {
       console.log("Error in upload");
 
@@ -42,17 +43,14 @@ const UploadFolders = ({ folders, handlereload, handleloading }: { folders: fold
     arr = [...map.values()];
     return arr;
   };
-  const upload = async (e: any, d: any, foldersid: any,directory:any) => {
+  const upload = async (e: any, d: any, foldersid: any) => {
     console.log(d);
     const arr: any = []
-    //  const Path = new Set()
     const Path = [] as any
     let count = 0;
     let beta, gamma;
     let Delta: any;
-    // const temp:any;
-    for (const [k, v, i = 0] of d) {
-      // console.log(i);
+    for (const [k, v] of d) {
       try {
         
        
@@ -62,7 +60,6 @@ const UploadFolders = ({ folders, handlereload, handleloading }: { folders: fold
           return item.indexOf(v) !== -1;
         }));
         Delta = k[beta - 1];
-        // console.log(Delta);
        
       }
 
@@ -105,33 +102,45 @@ const UploadFolders = ({ folders, handlereload, handleloading }: { folders: fold
             return item.name.indexOf(Delta) !== -1;
           }));
           state.parentid = arr[gamma].id;
-          console.log(arr[gamma].id);
-          console.log(foldersid === arr[gamma].id);
+        
           const uploaddata = await uploadEntireFolder(state)
           arr.push({ name: state.foldername, id: uploaddata.id});
-          // if(k)
-          console.log("dir"+k +" "+ directory);
+    
           
-          // await uploadfiles(foldersid,e.target.files,removeDuplicates(Path))
-        
           console.log(state);  
-      }        
+        }        
       }
       
       
       count++;
     }
-      catch (error) {
-        if (error instanceof(FirebaseError)) {
-          navigate('/error');
+    catch (error) {
+      if (error instanceof(FirebaseError)) {
+        navigate('/error');
         }
       }
     }
     // console.log("arr",arr);
-
-
+    
+    
+    const len =e.target.files
+  
+    
+   for (let i = 0; i < len.length; i++) {
+    const element = len[i];
+    const address = element.webkitRelativePath.split('/')
+    const valueofpath:string = address[address.length-2];
+    const to_store = ((arr.findIndex(function (item: any) {
+            return item.name.indexOf(valueofpath) !== -1
+          })));
+  
+    await uploadfiles(arr[to_store].id,element,removeDuplicates(Path));
+    
+   }
+   handleloading(false);
+   handlereload(true);
   }
-
+  
 
 
 
@@ -155,8 +164,8 @@ const UploadFolders = ({ folders, handlereload, handleloading }: { folders: fold
       }
     }
 
-    // handleloading(true)
-    upload(e, alpha, folderid,d)
+    handleloading(true)
+    await upload(e, alpha, folderid)
   }
 
   return (
