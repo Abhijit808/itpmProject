@@ -10,17 +10,17 @@ export const Store = async(uid:string,file:File,path:[string],id:any)=>{
         Path = Path+"/"+p
        })
      }
-    //  console.log(Path);
+     console.log(Path);
      
     const storageref  = ref(storage,`${uid}/${Path}/${file.name}`);
     const snapshot = await uploadBytes(storageref,file);
     const download = await getDownloadURL(snapshot.ref);
     const fileobj = {
         createdby:uid,
-        name:snapshot.ref.name,
         path:path,
         url:download,
-        foldername:id
+        foldername:id,
+        filename:file.name
     }
     console.log(download);
     const fileref = collection(store,"files");
@@ -28,6 +28,7 @@ export const Store = async(uid:string,file:File,path:[string],id:any)=>{
         ...fileobj
     })
     console.log(doc);
+    return doc
        
      Path =""
 }

@@ -1,33 +1,34 @@
-import { FormEvent, useContext, useRef, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import {  useContext,    useState } from "react"
+import {  useNavigate } from "react-router-dom"
 import { Authprovider } from "../context/Authcontext"
 import { FirebaseError } from "firebase/app";
+import { ScaleLoader } from "react-spinners";
 // import { FirebaseError } from "firebase/app";
 const Login = () => {
     const navigate = useNavigate();
-    const usernameref = useRef<HTMLInputElement>(null)
-    const passwordref = useRef<HTMLInputElement>(null)
+    // const usernameref = useRef<HTMLInputElement>(null)
+    // const passwordref = useRef<HTMLInputElement>(null)
     const [msg, setmsg] = useState<string>("")
     const [loading, setloading] = useState<Boolean>(false)
 
-    const { signinwithemail } = useContext(Authprovider);
-    const handlesubmit = async(e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        try{
+    const { signinwithGoogle } = useContext(Authprovider);
+//     const handlesubmit = async(e: FormEvent<HTMLFormElement>) => {
+//         e.preventDefault()
+//         try{
             
-            setloading(true);
-            await signinwithemail(usernameref.current!.value, passwordref.current!.value)
-                navigate('/'); 
+//             setloading(true);
+//             await signinwithemail(usernameref.current!.value, passwordref.current!.value)
+//                 navigate('/'); 
           
         
-            // console.log(res);
-        }
+//             // console.log(res);
+//         }
 
-        catch(error:unknown){
-            if(error instanceof FirebaseError){
-                setmsg("invalid email/password Cannot LOGIN")
-            }
-        }
+//         catch(error:unknown){
+//             if(error instanceof FirebaseError){
+//                 setmsg("invalid email/password Cannot LOGIN")
+//             }
+//         }
         
 
 
@@ -35,40 +36,44 @@ const Login = () => {
 
 
     
+//     setloading(false)
+// }
+
+const handlelogin = async()=>{
+    try{
+            
+        setloading(true);
+        await signinwithGoogle()
+            navigate('/'); 
+      
+    
+        // console.log(res);
+    }
+
+    catch(error:unknown){
+        if(error instanceof FirebaseError){
+            setmsg("invalid email/password Cannot LOGIN")
+            navigate("/error")
+        }
+    }
     setloading(false)
 }
-
+// useEffect(()=>{
+//     handlelogin()
+// },[])
 return (
     <>
         {
-            loading ? <div className="loading">loading...</div> :
+            loading ? 
+            <div className="w-[100vw] h-[100vh] flex justify-center items-center overflow-hidden">
+            <ScaleLoader  color="#000" />
+            </div> :
                 <aside className="flex justify-center items-center flex-col h-[100vh] gap-5 ">
                     {
                         msg ? <h3 className="font-Abel text-xl bg-red-700 bg-opacity-100 text-white py-2 px-4" >{msg}</h3> : null
 
                     }
-                    <form className="flex flex-wrap flex-col justify-between items-stretch w-fit gap-5 py-5 px-5 shadow-lg shadow-blue-700 " onSubmit={handlesubmit}>
-                        <h3 className='text-3xl text-center font-Abel'>LOGIN</h3>
-
-                        <div className="inputs flex flex-col gap-2 justify-between">
-                            <span className="font-Abel text-xl">Username</span>
-                            <input type="text" name="" id="" className="border-2 p-1 border-blue-700" ref={usernameref} />
-                        </div>
-                        <div className="inputs flex flex-col gap-2">
-                            <span className="font-Abel text-xl">Password</span>
-                            <input type="password" name="" id="password" className="border-2 p-1 border-blue-700" ref={passwordref} />
-                        </div>
-                        <div className="btns flex flex-col gap-5 cursor-pointer">
-
-                            <input type="submit" value="LOGIN" className="border-2 border-blue-700 p-2 w-full cursor-pointer" disabled={loading}/>
-                            <p className="flex gap-1 justify-center font-Abel">
-                                New user?
-                                <Link to='/Signup' className="underline">
-                                    signup
-                                </Link>
-                            </p>
-                        </div>
-                    </form>
+                    <button className="logininwithgoogle py-2 px-5 text-2xl font-Abel text-white bg-blue-800" onClick={handlelogin}>signin with Google</button>
 
                 </aside>
         }

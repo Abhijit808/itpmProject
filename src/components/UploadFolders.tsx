@@ -1,13 +1,14 @@
 import { DocumentData } from "firebase/firestore"
 import folders from "../types/folder"
 import { AiFillFolderAdd } from "react-icons/ai"
-import { ChangeEvent, useContext} from "react";
+import { ChangeEvent, useContext } from "react";
 import { Authprovider } from "../context/Authcontext";
 import { useNavigate, useParams } from "react-router-dom";
 import * as f from "../queries/uploadfile"
 import { FirebaseError } from "firebase/app";
 import { uploadEntireFolder } from "../queries/uploadfolders";
 import obj from "../types/obj";
+// import { ScaleLoader } from "react-spinners";
 // import { getsingledoc } from "../queries/getdoc";
 declare module 'react' {
   interface InputHTMLAttributes<T> extends HTMLAttributes<T> {
@@ -16,64 +17,169 @@ declare module 'react' {
     webkitdirectory?: string;
   }
 }
-const UploadFolders = ({ folders }: { folders: folders | DocumentData }) => {
+const UploadFolders = ({ folders, handlereload, handleloading }: { folders: folders | DocumentData, handlereload: (reload: boolean) => void, handleloading: (reload: boolean) => void }) => {
   const auth = useContext(Authprovider);
   const { folderid } = useParams();
   const navigate = useNavigate();
-
-  const uploadfiles = async (folder: any, files: any,path:[string]) => {
-    if (files)
-      for (let i = 0; i < files.length; ++i) {
-        const file = files[i]; if (file === undefined) return;
-        f.Store(auth.user.uid, files[i], path, folder);
+  // const [loading, setloading] = useState<boolean>(false)
+  const uploadfiles = async (folder: any, files: any, path: [string]) => {
+    console.log(files);
+    
+    if (files){
+      const file = files; 
+      if (file === undefined) return;
+      f.Store(auth.user.uid, file, path, folder);
+    }
       
-      }
     else {
       console.log("Error in upload");
 
     }
   }
-   const handlechange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const Path = [] as any
-    console.log(e.target.files);
-    
-    const folder: obj = {
 
-      foldername: e.target.files![0].webkitRelativePath.split("/")?.[0],
-      parentid: folderid,
-      path: Path,
-      childfolders: [""],
-      childfiles: [""],
-      Createdat: "",
-      createdby: auth.user.uid,
-    }
-    if (folder.parentid === undefined) {
-      folder.parentid = null
-    }
-    try {
-      if (folderid === undefined) {
+  const removeDuplicates = (arr: any) => {
+    const map = new Map();
+    arr.forEach((x: any) => map.set(JSON.stringify(x), x));
+    arr = [...map.values()];
+    return arr;
+  };
+  const upload = async (e: any, d: any, foldersid: any) => {
+    console.log(d);
+    const arr: any = []
+    const Path = [] as any
+    let count = 0;
+    let beta, gamma;
+    let Delta: any;
+    for (const [k, v] of d) {
+      try {
+        
+       
+     
+      if (count > 0) {
+        beta = (k.findIndex(function (item: any) {
+          return item.indexOf(v) !== -1;
+        }));
+        Delta = k[beta - 1];
+       
+      }
+
+     
+
+
+      const state: obj = {
+
+        foldername: v,
+        parentid: foldersid,
+        path: removeDuplicates(Path),
+        childfolders: [""],
+        childfiles: [""],
+        Createdat: Date.now().toString(),
+        createdby: auth.user.uid
+      }
+      if (state.parentid === undefined) {
+        state.parentid = null
+      }
+      if (foldersid === undefined) {
         // Path = [];
         Path.push("Root")
       }
-      if (folderid) {
-        Path.push(...folders.path, folderid)
+      if (foldersid) {
+        Path.push(...folders.path, foldersid)
       }
-      const uploadData = await uploadEntireFolder(folder);
-      console.log(Path);
-      uploadfiles(uploadData.id, e.target.files,Path);
-    } catch (e) {
-      if (e instanceof (FirebaseError)) {
-        navigate("/error");
+      if (count === 0) {
+        const uploaddata = await uploadEntireFolder(state);
+        arr.push({ name: state.foldername, id: uploaddata.id });
+      }
+      if (count > 0) {
+        if (Delta === undefined) {
+          console.log(7878);
+
+          foldersid = folderid;
+        }else{
+          
+          console.log(Delta);  
+          gamma = (arr.findIndex(function (item: any) {
+            return item.name.indexOf(Delta) !== -1;
+          }));
+          state.parentid = arr[gamma].id;
+        
+          const uploaddata = await uploadEntireFolder(state)
+          arr.push({ name: state.foldername, id: uploaddata.id});
+    
+          
+          console.log(state);  
+        }        
+      }
+      
+      
+      count++;
+    }
+    catch (error) {
+      if (error instanceof(FirebaseError)) {
+        navigate('/error');
+        }
       }
     }
+    // console.log("arr",arr);
+    
+    
+    const len =e.target.files
+  
+    
+   for (let i = 0; i < len.length; i++) {
+    const element = len[i];
+    const address = element.webkitRelativePath.split('/')
+    const valueofpath:string = address[address.length-2];
+    const to_store = ((arr.findIndex(function (item: any) {
+            return item.name.indexOf(valueofpath) !== -1
+          })));
+  
+    await uploadfiles(arr[to_store].id,element,removeDuplicates(Path));
+    
+   }
+   handleloading(false);
+   handlereload(true);
   }
- return (
-    <label className="relative cursor-pointer overflow-hidden text-3xl border-2  shadow hover:shadow-2xl border-blue-600 p-1">
+  
 
 
-      <AiFillFolderAdd />
-      <input type="file" className="absolute left-[-9999px]" onChange={handlechange} webkitdirectory='' multiple directory="" />
-    </label>
+
+  const handlechange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    const dir = [] as any
+    let uniq = [] as any;
+    let d;
+    for (let index = 0; index < files!.length; index++) {
+      const element = files![index].webkitRelativePath;
+     const directory = element.match(/^(.+)\/([^\/]+)$/);
+       d = directory?.[1].split("/");
+      dir.push(d);
+    }
+    uniq = removeDuplicates(dir)
+    const alpha = new Map()
+    for (const i of uniq) {
+
+      for (const j of i) {
+        alpha.set(i, j);
+      }
+    }
+
+    handleloading(true)
+    await upload(e, alpha, folderid)
+  }
+
+  return (
+    <>
+      {
+
+        <label className="relative cursor-pointer overflow-hidden text-3xl border-2  shadow hover:shadow-2xl border-blue-600 p-1">
+
+
+          <AiFillFolderAdd />
+          <input type="file" className="absolute left-[-9999px]" onChange={handlechange} webkitdirectory='' multiple directory="" />
+        </label>
+      }
+    </>
   )
 }
 
