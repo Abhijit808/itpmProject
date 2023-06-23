@@ -9,7 +9,7 @@ interface Modalprops {
   onsave?:(value:any,folder?:any)=>void|any|undefined,folder:any
 }
 const Model = ({ btnText, modelText, closeBtn, okBtn,onsave,folder }: Modalprops) => {
-  const [showModel, setshowmodel] = useState<Boolean>(false);
+  const [showModel, setshowmodel] = useState<boolean>(false);
 const inputref = useRef<HTMLInputElement>(null)
   // const val = useContext(Modelcontext)
   const handleok =()=>{

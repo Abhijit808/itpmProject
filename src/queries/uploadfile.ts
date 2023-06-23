@@ -2,7 +2,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {storage,store} from '../firebase/firebaseconfgig'
 import { addDoc, collection } from "firebase/firestore";
 export const Store = async(uid:string,file:File,path:[string],id:any)=>{
-    let Path:string = "";
+    let Path = "";
     console.log(path);
     
     if (path !== undefined) {
@@ -20,9 +20,10 @@ export const Store = async(uid:string,file:File,path:[string],id:any)=>{
         path:path,
         url:download,
         foldername:id,
-        filename:file.name
+        filename:file.name,
+        ref:storageref.fullPath
     }
-    console.log(download);
+    // console.log(storageref);
     const fileref = collection(store,"files");
     const doc = await addDoc(fileref,{
         ...fileobj

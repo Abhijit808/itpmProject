@@ -1,4 +1,4 @@
-import { DocumentData } from "firebase/firestore"
+import { DocumentData, Timestamp } from "firebase/firestore"
 import folders from "../types/folder"
 import { AiFillFolderAdd } from "react-icons/ai"
 import { ChangeEvent, useContext } from "react";
@@ -71,9 +71,7 @@ const UploadFolders = ({ folders, handlereload, handleloading }: { folders: fold
         foldername: v,
         parentid: foldersid,
         path: removeDuplicates(Path),
-        childfolders: [""],
-        childfiles: [""],
-        Createdat: Date.now().toString(),
+        Createdat: Timestamp.now(),
         createdby: auth.user.uid
       }
       if (state.parentid === undefined) {
@@ -125,16 +123,19 @@ const UploadFolders = ({ folders, handlereload, handleloading }: { folders: fold
     
     const len =e.target.files
   
-    
-   for (let i = 0; i < len.length; i++) {
-    const element = len[i];
-    const address = element.webkitRelativePath.split('/')
-    const valueofpath:string = address[address.length-2];
-    const to_store = ((arr.findIndex(function (item: any) {
-            return item.name.indexOf(valueofpath) !== -1
-          })));
-  
-    await uploadfiles(arr[to_store].id,element,removeDuplicates(Path));
+    const filesPath:any = [];
+    for (let i = 0; i < len.length; i++) {
+      const element = len[i];
+      const address = element.webkitRelativePath.split('/')
+      const valueofpath:string = address[address.length-2];
+      const to_store = ((arr.findIndex(function (item: any) {
+        return item.name.indexOf(valueofpath) !== -1
+      })));
+      
+      filesPath.push(...Path,arr[to_store].id);
+      console.log(filesPath);
+      
+    await uploadfiles(arr[to_store].id,element,removeDuplicates(filesPath));
     
    }
    handleloading(false);

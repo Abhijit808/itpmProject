@@ -9,7 +9,7 @@ const Login = () => {
     // const usernameref = useRef<HTMLInputElement>(null)
     // const passwordref = useRef<HTMLInputElement>(null)
     const [msg, setmsg] = useState<string>("")
-    const [loading, setloading] = useState<Boolean>(false)
+    const [loading, setloading] = useState<boolean>(false)
 
     const { signinwithGoogle } = useContext(Authprovider);
 //     const handlesubmit = async(e: FormEvent<HTMLFormElement>) => {

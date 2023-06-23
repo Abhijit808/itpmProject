@@ -1,11 +1,8 @@
-
 import { useContext, useEffect, useState } from "react"
 import { Authprovider } from "../context/Authcontext"
 import { useNavigate, useParams } from "react-router-dom";
 import Model from "../components/Model"
-// import { Modelcontext } from "../context/ModelProvider";
-import { DocumentData } from "firebase/firestore";
-// import {  storage, store } from "../firebase/firebaseconfgig";
+import { DocumentData, Timestamp } from "firebase/firestore";
 import Folders from "../components/Folders";
 import Files from "../components/Files";
 import { AiFillFolderAdd } from "react-icons/ai";
@@ -15,16 +12,12 @@ import obj from "../types/obj";
 import { addData } from "../queries/adddoc";
 import { getData } from "../queries/getdocs";
 import { getsingledoc } from "../queries/getdoc";
-// import { updatepath } from "../queries/updatepath";
 import { ScaleLoader } from "react-spinners";
 import { FirebaseError } from "firebase/app";
 import { getFiles } from "../queries/getfiles";
 import UploadFolders from "../components/UploadFolders";
-// import UploadFolder from "../components/UploadFolder";
-// import { ref, uploadBytes } from "firebase/storage";
 const Dashboard = () => {
   const { folderid } = useParams()
-  // console.log(folderid);
   const navigate = useNavigate();
   const auth = useContext(Authprovider);
   const [loading, setloading] = useState<boolean>(false)
@@ -32,9 +25,6 @@ const Dashboard = () => {
   const [folders, setfolders] = useState<Array<folders | DocumentData>>([])
   const [files, setfiles] = useState<Array<folders | DocumentData>>([])
   const [currentfolder, setcurrentfolder] = useState<folders | DocumentData>({})
-  // const[path,setpath]  = useState<any>([])
-  // const [bool,setbool] = useState<boolean>(false);
-
   const handleclick = async (input: string, currentfolder: any) => {
     let Path: any = [];
     console.log(currentfolder);
@@ -46,10 +36,10 @@ const Dashboard = () => {
       foldername: input,
       parentid: folderid,
       path: Path,
-      childfolders: [""],
-      childfiles: [""],
-      Createdat: "",
+
+      Createdat:Timestamp.now(),
       createdby: auth.user.uid,
+      
     }
     if (state.parentid === undefined) {
       state.parentid = null
@@ -81,6 +71,14 @@ const Dashboard = () => {
   const forceloading = (reload: boolean) => {
     setloading(reload)
   }
+  useEffect(()=>{
+    window.addEventListener("onLoad",()=>{
+      setloading(true);
+    })
+    return()=>window.removeEventListener("onload",()=>{
+      setloading(false);
+    })
+  },[])
   useEffect(() => {
 
     setfolders([]);

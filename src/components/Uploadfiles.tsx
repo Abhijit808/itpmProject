@@ -4,7 +4,9 @@ import { AiFillFileAdd } from "react-icons/ai"
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Authprovider } from "../context/Authcontext";
 import * as f from "../queries/uploadfile"
+import { useParams } from "react-router-dom";
 const Uploadfiles = ({ folders,handlereload,handleloading }: { folders: folders | DocumentData,handlereload:(reload:boolean)=>void ,handleloading:(reload:boolean)=>void}) => {
+  const {folderid} = useParams()
   const[file,setfile] = useState<File>();
   const auth = useContext(Authprovider)
   const handlechange = (e:ChangeEvent<HTMLInputElement>)=>{
@@ -16,8 +18,9 @@ const Uploadfiles = ({ folders,handlereload,handleloading }: { folders: folders 
     handleloading(true);
     if(file === undefined) return; 
     // handleloading(true);
+    console.log(folderid);
     
-    if (Object.keys(folders).length === 0 && folders.constructor === Object ) {
+    if (folderid === undefined){    
       await f.Store(auth.user.uid,file,["Root"],null);
       handlereload(true); 
     }

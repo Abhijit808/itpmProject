@@ -1,9 +1,9 @@
+import { Timestamp } from "firebase/firestore";
+
 export default interface obj {
     foldername: string,
     parentid: string|null|undefined,
     path:any,
-    childfolders:[string],
-    childfiles:[string],
-    Createdat: string,
-    createdby: Number
+    Createdat: Timestamp,
+    createdby: number
 }
