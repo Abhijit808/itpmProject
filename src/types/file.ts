@@ -5,5 +5,6 @@ export default interface files {
     url:string,
     id:string,
     foldername:string,
-    filename:string
+    filename:string,
+    ref:string
 }

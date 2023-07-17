@@ -8,7 +8,7 @@ import Login from './pages/Login.tsx'
 import Signup from './pages/Signup.tsx'
 import Dashboard from './pages/Dashboard.tsx'
 import Protectedroute from './router/Protectedroute.tsx'
-import ModelProvider from './context/ModelProvider.tsx'
+import Reloadcontext from './context/Reloadcontext.tsx'
 // import Authcontext from './context/Authcontext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   // <React.StrictMode>
     <BrowserRouter>
       <Authcontext>
-        <ModelProvider>
+        <Reloadcontext>
           <Routes>
             <Route path={'/'}
               element={
@@ -39,7 +39,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             <Route path={'*'} element={<div>404</div>} />
             <Route path={'/error'} element={<div className='w-[100vw] h-[100vh] text-3xl font-Abel flex justify-center items-center'>Error</div>} />
           </Routes>
-        </ModelProvider>
+        </Reloadcontext>
       </Authcontext>
     </BrowserRouter>
   // </React.StrictMode>

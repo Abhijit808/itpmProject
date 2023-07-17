@@ -10,7 +10,7 @@ export const Authprovider = createContext<any>({})
 const Authcontext = ({children}:{children:ReactNode}):ReactElement => {
     // const navigate = useNavigate()
     const [user,setuser] = useState<User|null>(null)
-    const [loading,setloading] = useState<Boolean>(false);
+    const [loading,setloading] = useState<boolean>(false);
 //TODO add types
 
 interface valuetype{

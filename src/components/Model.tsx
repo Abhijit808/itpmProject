@@ -18,7 +18,7 @@ const inputref = useRef<HTMLInputElement>(null)
   }
   return (
     <>
-      <button className='text-3xl border-2  shadow hover:shadow-2xl border-blue-600 p-1' onClick={() => setshowmodel(prev => !prev)}>{btnText}</button>
+      <button className='btn bg-black bg-opacity-70 text-white hover:text-black text-3xl  px-2 py-2' onClick={() => setshowmodel(prev => !prev)}>{btnText}</button>
       {
         showModel &&
         (

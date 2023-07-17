@@ -1,7 +1,7 @@
 import { DocumentData } from "firebase/firestore"
 import folders from "../types/folder"
 import { AiFillFileAdd } from "react-icons/ai"
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useContext, useEffect, useState } from "react";
 import { Authprovider } from "../context/Authcontext";
 import * as f from "../queries/uploadfile"
 import { useParams } from "react-router-dom";
@@ -14,7 +14,8 @@ const Uploadfiles = ({ folders,handlereload,handleloading }: { folders: folders 
     setfile(e.target.files[0]) 
     
   }
-  const handlestore = async()=>{
+  const handlestore = useCallback( async()=>{
+    // handlereload(false);
     handleloading(true);
     if(file === undefined) return; 
     // handleloading(true);
@@ -23,20 +24,23 @@ const Uploadfiles = ({ folders,handlereload,handleloading }: { folders: folders 
     if (folderid === undefined){    
       await f.Store(auth.user.uid,file,["Root"],null);
       handlereload(true); 
+      handleloading(false);
     }
     else{
       await f.Store(auth.user.uid,file,folders.path,folders.id);
       
+      handleloading(false);
       handlereload(true); 
     }
-    handleloading(false);
+    
+    
     // handlereload(false)
     // handlereload(true); 
-  }
+  },[file])
   // console.log(folders);  
   useEffect(()=>{
     handlestore();
-  },[file])
+  },[file,handlestore])
   return (
     <label className="relative cursor-pointer overflow-hidden text-3xl border-2  shadow hover:shadow-2xl border-blue-600 p-1">
     

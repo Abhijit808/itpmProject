@@ -138,14 +138,15 @@ const UploadFolders = ({ folders, handlereload, handleloading }: { folders: fold
     await uploadfiles(arr[to_store].id,element,removeDuplicates(filesPath));
     
    }
-   handleloading(false);
-   handlereload(true);
+  //  handleloading(false);
+  //  handlereload(true);
   }
   
 
 
 
   const handlechange = async (e: ChangeEvent<HTMLInputElement>) => {
+    // handlereload(false)
     const files = e.target.files;
     const dir = [] as any
     let uniq = [] as any;
@@ -165,7 +166,7 @@ const UploadFolders = ({ folders, handlereload, handleloading }: { folders: fold
       }
     }
 
-    handleloading(true)
+    // handleloading(true)
     await upload(e, alpha, folderid)
   }
 
