@@ -1,9 +1,8 @@
 import { DocumentData } from "firebase/firestore";
 import files from "../types/file";
-import { deletefile } from "../queries/deletefile";
-import { FirebaseError } from "firebase/app";
+import { subfolders_and_files } from "../queries/getsubfolders";
 import { useNavigate } from "react-router-dom";
-import { getsubfolders_and_files } from "../queries/getsubfolders";
+import { FirebaseError } from "firebase/app";
 // interface dropdowntype {
 //   id: string;
 //   state: boolean;
@@ -19,21 +18,18 @@ const Dropdown = ({
 }) => {
   const navigate = useNavigate();
   const handlefileDelete = async () => {
-    // console.log(file);
-   //  const files_and_folders =  await getsubfolders_and_files(file.id);
- 
+    console.log(file);
+
     handleloading(true);
-    try{
-      
-      await deletefile(file.ref, file.id);
-      handlereload(true)
-    }
-    catch(e:unknown){
-      if (e instanceof(FirebaseError)) {
-        navigate("/error")
+    try {
+      const files_and_folders = await subfolders_and_files(file.id);
+      handleloading(false);
+      handlereload(true);
+    } catch (e: unknown) {
+      if (e instanceof FirebaseError) {
+        navigate("/error");
       }
     }
-   
   };
   return (
     <div className="absolute -right-[7rem] top-12 bg-blue-700 text-white py-4 px-1 z-10 transition-all">

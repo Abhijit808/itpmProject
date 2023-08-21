@@ -3,5 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 *{
-    font-family: "Product Sans",Arial,sans-serif;;
+    font-family: "Product Sans",Arial,sans-serif;
+    /* outline-color: red;
+    outline-style: solid */
 }

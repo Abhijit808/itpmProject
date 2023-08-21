@@ -50,7 +50,7 @@ const Folders = ({
       clic === undefined ? null : clic(true);
       console.log("if");
     } else {
-      console.log("else");
+      // console.log("else");
 
       setdropdown({ id: f.id, state: (dropdown.state = false) });
       clic === undefined ? null : clic(false);
