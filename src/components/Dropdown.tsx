@@ -22,7 +22,7 @@ const Dropdown = ({
 
     handleloading(true);
     try {
-      const files_and_folders = await subfolders_and_files(file.id);
+      await subfolders_and_files(file.id);
       handleloading(false);
       handlereload(true);
     } catch (e: unknown) {
