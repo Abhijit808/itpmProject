@@ -5,6 +5,7 @@ import folders from "../types/folder";
 import Dropdown from "./Dropdown";
 import files from "../types/file";
 import { MouseEvent, useState } from "react";
+import { CiFileOn, CiFolderOn } from "react-icons/ci";
 // import { updatepath } from "../queries/updatepath"
 interface dropdowntype {
   id: string;
@@ -30,9 +31,9 @@ const Folders = ({
     state: false,
   });
 
-  const truncate = (value: string, nu: number) => {
-    if (value === undefined) {
-      return;
+  const truncate = (value: string, nu: number, len: number) => {
+    if (value === undefined || len < nu) {
+      return value;
     }
     return value.slice(0, nu) + "....";
   };
@@ -65,44 +66,45 @@ const Folders = ({
         // }
 
         return (
-          
-            <div key={i} className="relative div ">
-              <div
-                className="dropdown absolute flex flex-col gap-[2px] -right-[.5rem] bottom-2 bg-blue-700 p-3   cursor-pointer"
-                onClick={(e) => {
-                  handleclick(e, f);
-                }}
-              >
-                <div className="h-[5px] w-[5px] rounded-full bg-black"></div>
-                <div className="h-[5px] w-[5px] rounded-full bg-black"></div>
-                <div className="h-[5px] w-[5px] rounded-full bg-black"></div>
-              </div>
-              {des
-                ? dropdown.state &&
-                  (f.id === dropdown.id ? (
-                    <div className="relative">
-                      <Dropdown
-                        file={f}
-                        handlereload={Reload}
-                        handleloading={Loading}
-                      />
-                    </div>
-                  ) : null)
-                : null}
-              <Link to={`/folders/${f.id}`} key={f.id}>
-                <button className="border-2 border-blue-700 px-4 py-2 m-2 cursor-pointer  font-Abel uppercase w-full">
-                  {truncate(f.foldername, 20)}
+          <div key={i} className="relative div ">
+            <div
+              className="dropdown absolute flex flex-col gap-[2px] -right-[0rem] bottom-0 top-0 justify-center bg-blue-700 p-3   cursor-pointer"
+              onClick={(e) => {
+                handleclick(e, f);
+              }}
+            >
+              <div className="h-[5px] w-[5px] rounded-full bg-black"></div>
+              <div className="h-[5px] w-[5px] rounded-full bg-black"></div>
+              <div className="h-[5px] w-[5px] rounded-full bg-black"></div>
+            </div>
+            {des
+              ? dropdown.state &&
+                (f.id === dropdown.id ? (
+                  <div className="relative">
+                    <Dropdown
+                      file={f}
+                      handlereload={Reload}
+                      handleloading={Loading}
+                    />
+                  </div>
+                ) : null)
+              : null}
+            <div className="flex w-full items-center border-2 border-blue-700 px-4 py-2 ">
+              <CiFolderOn className="w-10 h-10" />
+              <Link to={`/folders/${f.id}`} key={f.id} className="w-full">
+                <button className=" m-2 cursor-pointer  font-Abel uppercase w-full">
+                  {truncate(f.foldername, 30, 20)}
                 </button>
               </Link>
-              {/* <iframe src={f.url}>
+            </div>
+            {/* <iframe src={f.url}>
 
             </iframe> */}
 
             {/* <Link to={`/folders/${f.id}`} key={f.id}>
           <button  className="border-2 border-blue-700 px-4 py-2 m-2 cursor-pointer  font-Abel uppercase" >{f.foldername}</button>
         </Link> */}
-            </div>
-          
+          </div>
         );
       })}
     </>

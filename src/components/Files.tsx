@@ -72,13 +72,17 @@ const Files = ({
               ? dropdown.state &&
                 (f.id === dropdown.id ? (
                   <div className="relative">
-                    <Dropdown file={f}  handlereload = {Reload} handleloading = {Loading}/>
+                    <Dropdown
+                      file={f}
+                      handlereload={Reload}
+                      handleloading={Loading}
+                    />
                   </div>
                 ) : null)
               : null}
             <a href={f.url} download={true}>
               <button className="border-2 border-blue-700 px-4 py-2 m-2 cursor-pointer  font-Abel uppercase w-full">
-                {truncate(f.filename, 20)}
+                {truncate(f.filename, 15)}
               </button>
             </a>
             {/* <iframe src={f.url}>

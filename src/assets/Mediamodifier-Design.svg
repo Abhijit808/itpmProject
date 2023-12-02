@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1080" height="1920" viewBox="0 0 1080 1920" xml:space="preserve">
+<desc>Created with Fabric.js 5.2.4</desc>
+<defs>
+</defs>
+<g transform="matrix(1 0 0 1 540 960)" id="e19cbcce-c619-44b8-a286-1ae5cba295dd"  >
+<rect style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1; visibility: hidden;" vector-effect="non-scaling-stroke"  x="-540" y="-960" rx="0" ry="0" width="1080" height="1920" />
+</g>
+<g transform="matrix(Infinity NaN NaN Infinity 0 0)" id="85c67dc4-41f0-4197-9427-21e256fd39c7"  >
+</g>
+<g transform="matrix(53.43 0 0 53.52 540 884.41)" id="c7e469a6-983a-41d8-b579-fac90b072ad5"  >
+<path style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-12, -12)" d="M 9.05 15 L 15 15 Q 15.275 15 15.5 14.863 Q 15.725 14.725 15.85 14.5 L 16.95 12.6 Q 17.075 12.375 17.05 12.1 Q 17.025000000000002 11.825 16.900000000000002 11.6 L 13.950000000000003 6.5 Q 13.825000000000003 6.275 13.600000000000003 6.1370000000000005 Q 13.375 6 13.1 6 L 10.899999999999999 6 Q 10.624999999999998 6 10.399999999999999 6.1370000000000005 Q 10.174999999999999 6.275 10.049999999999999 6.5 L 7.1 11.6 Q 6.975 11.825 6.975 12.1 Q 6.975 12.375 7.1 12.6 L 8.15 14.5 Q 8.275 14.75 8.525 14.875 Q 8.775 15 9.05 15 Z M 10.25 12 L 12 9 L 13.75 12 Z M 3 17 L 3 4 Q 3 3.175 3.5869999999999997 2.5869999999999997 Q 4.175 2 5 2 L 19 2 Q 19.825 2 20.413 2.5869999999999997 Q 21 3.175 21 4 L 21 17 Z M 5 22 Q 4.175 22 3.5869999999999997 21.413 Q 3 20.825 3 20 L 3 19 L 21 19 L 21 20 Q 21 20.825 20.413 21.413 Q 19.825 22 19 22 Z" stroke-linecap="round" />
+</g>
+</svg>

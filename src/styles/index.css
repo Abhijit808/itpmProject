@@ -1,9 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+/* @import url('https://fonts.cdnfonts.com/css/product-sans'); */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 *{
-    font-family: "Product Sans",Arial,sans-serif;
+    padding: 0;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    background-color: white;
+    font-weight: 400;
+    color:#444746;
+   
     /* outline-color: red;
     outline-style: solid */
+}
+html{
+    background-color: white !important;
+}
+
+
+.c-qd {
+    height: 100%;
+    width: 100%;
+}
+.visiblescrollbar::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+.visiblescrollbar::-webkit-scrollbar-track {
+    background-color: #ebebeb;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.visiblescrollbar::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #6d6d6d; 
 }

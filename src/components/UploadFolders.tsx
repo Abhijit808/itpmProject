@@ -1,6 +1,7 @@
 import { DocumentData, Timestamp } from "firebase/firestore";
 import folders from "../types/folder";
-import { AiFillFolderAdd } from "react-icons/ai";
+// import { AiFillFolderAdd } from "react-icons/ai";
+import { LuFolderUp } from "react-icons/lu";
 import { ChangeEvent, useContext } from "react";
 import { Authprovider } from "../context/Authcontext";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,6 +18,10 @@ declare module "react" {
     webkitdirectory?: string;
   }
 }
+interface fileppaths {
+  id: string;
+  name: string;
+}
 const UploadFolders = ({
   folders,
   handlereload,
@@ -29,8 +34,7 @@ const UploadFolders = ({
   const auth = useContext(Authprovider);
   const { folderid } = useParams();
   const navigate = useNavigate();
-  // const [loading, setloading] = useState<boolean>(false)
-  const uploadfiles = async (folder: any, files: any, path: [string]) => {
+  const uploadfiles = async (folder: any, files: any, path: [fileppaths]) => {
     console.log(files);
 
     if (files) {
@@ -75,11 +79,23 @@ const UploadFolders = ({
         if (state.parentid === undefined) {
           state.parentid = null;
         }
+        if (state.path.length === 0) {
+          state.path = [
+            ...folders.path,
+            { id: folders.id, name: folders.foldername },
+          ];
+        }
+
         if (foldersid === undefined) {
           // Path = [];
           Path.push("Root");
         }
         if (foldersid) {
+          console.log(folders.path);
+          // state.path = [
+          //   ...folders.path,
+          //   { id: folders.id, name: folders.foldername },
+          // ];
           Path.push(...folders.path, foldersid);
         }
         if (count === 0) {
@@ -126,7 +142,7 @@ const UploadFolders = ({
         return item.name.indexOf(valueofpath) !== -1;
       });
 
-      filesPath.push(...Path, arr[to_store].id);
+      filesPath.push(...Path, arr[to_store]?.id);
       console.log(filesPath);
 
       await uploadfiles(arr[to_store].id, element, removeDuplicates(filesPath));
@@ -143,7 +159,7 @@ const UploadFolders = ({
     let d;
     for (let index = 0; index < files!.length; index++) {
       const element = files![index].webkitRelativePath;
-      const directory = element.match(/^(.+)\/([^\/]+)$/);
+      const directory = element.match(/^(.+)\/([^/]+)$/);
       d = directory?.[1].split("/");
       dir.push(d);
     }
@@ -162,8 +178,8 @@ const UploadFolders = ({
   return (
     <>
       {
-        <label className="relative cursor-pointer overflow-hidden button text-black flex w-full gap-5 px-2 py-2 items-center text-3xl border-b-2 border-black">
-          <AiFillFolderAdd />
+        <label className="relative cursor-pointer overflow-hidden button text-black flex w-full gap-5 px-2 py-2 items-center text-3xl ">
+          <LuFolderUp className="text-2xl" />
           <input
             type="file"
             className="absolute left-[-9999px]"

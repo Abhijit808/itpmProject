@@ -61,13 +61,6 @@ export const subfolders_and_files = async (id: any) => {
 
   if (Files[0] === id) {
     deleteEverything(id, "folders");
-    // const foldersref = collection(store, "folders");
-    // const docid = doc(foldersref, id);
-    // const docref = await getDoc(docid);
-    // console.log(docref.id);
-
-    //  const querySnapshot1 = await getDocs(folders);
-    //  querySnapshot1?.forEach(async (d: any) => {
-    //   });
+    deleteEverything(id, "files");
   }
 };

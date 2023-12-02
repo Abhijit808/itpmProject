@@ -3,6 +3,9 @@ import files from "../types/file";
 import { subfolders_and_files } from "../queries/getsubfolders";
 import { useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
+import { IoTrashOutline } from "react-icons/io5";
+import { BsDownload } from "react-icons/bs";
+import { RiArrowDropRightFill } from "react-icons/ri";
 // interface dropdowntype {
 //   id: string;
 //   state: boolean;
@@ -32,15 +35,21 @@ const Dropdown = ({
     }
   };
   return (
-    <div className="absolute -right-[7rem] top-12 bg-blue-700 text-white py-4 px-1 z-10 transition-all">
-      <li
-        className="val  list-none w-full hover:bg-white hover:text-black cursor-pointer transition-all px-10 py-1 font-Abel uppercase"
-        onClick={handlefileDelete}
-      >
-        Delete
+    <div className="absolute -right-[7rem] top-14x px-1  z-10 transition-all">
+      <li className="val  list-none w-full hover:bg-white hover:text-black cursor-pointer transition-all px-2 py-2 border-2 border-b-black  pr-20 font-Abel uppercase flex items-center justify-start">
+        <IoTrashOutline className="w-10 h-6" />
+        <button onClick={handlefileDelete}>Move To Trash</button>
       </li>
-      {/* <li className="val  list-none w-full hover:bg-white hover:text-black cursor-pointer transition-all px-10 py-1 font-Abel uppercase">Delete</li>
-        <li className="val  list-none w-full hover:bg-white hover:text-black cursor-pointer transition-all px-10 py-1 font-Abel uppercase">Delete</li> */}
+      <li className="val  list-none w-full hover:bg-white hover:text-black cursor-pointer transition-all px-2  py-2 pr-20 font-Abel uppercase flex items-center justify-start">
+        <IoTrashOutline className="w-10 h-6" />
+        <button
+          onClick={() => {
+            console.log("hello");
+          }}
+        >
+          Move To Trash
+        </button>
+      </li>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { DocumentData } from "firebase/firestore";
 import folders from "../types/folder";
-import { AiFillFileAdd } from "react-icons/ai";
+// import { AiFillFileAdd } from "react-icons/ai";
+import { BsFileEarmarkArrowUp } from "react-icons/bs";
 import {
   ChangeEvent,
   useCallback,
@@ -20,6 +21,8 @@ const Uploadfiles = ({
   handlereload: (reload: boolean) => void;
   handleloading: (reload: boolean) => void;
 }) => {
+  console.log(folders);
+
   const { folderid } = useParams();
   const [file, setfile] = useState<File>();
   const auth = useContext(Authprovider);
@@ -33,9 +36,12 @@ const Uploadfiles = ({
     if (file === undefined) return;
     // handleloading(true);
     console.log(folderid);
-
+    const fileppath = {
+      id: "Root",
+      name: "Root",
+    };
     if (folderid === undefined) {
-      await f.Store(auth.user.uid, file, ["Root"], null);
+      await f.Store(auth.user.uid, file, [fileppath], null);
       handlereload(true);
       handleloading(false);
     } else {
@@ -54,8 +60,8 @@ const Uploadfiles = ({
   }, [file, handlestore]);
   return (
     <>
-      <label className="relative cursor-pointer overflow-hidden button text-black flex w-full gap-5 px-2 py-2 items-center text-3xl border-b-2 border-black">
-        <AiFillFileAdd />
+      <label className="relative cursor-pointer overflow-hidden button text-black flex w-full gap-5 px-2 py-2 items-center text-3xl ">
+        <BsFileEarmarkArrowUp className="text-2xl" />
         <input
           type="file"
           className="absolute left-[-9999px]"

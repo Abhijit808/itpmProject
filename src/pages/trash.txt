@@ -1,0 +1,116 @@
+ <div className="mydrive ">
+                    <button
+                      onClick={handleShowmydrive}
+                      className="bg-[#E6E7EA]"
+                    >
+                      MY Drive
+                    </button>
+
+                    <div
+                      className={`folders    ${
+                        Showmydrive
+                          ? "scale-100 flex transition-all"
+                          : "scale-0  transition-all"
+                      } flex flex-col`}
+                    >
+                      {folders?.map((folder, i) => {
+                        return (
+                          <div>
+                            <button
+                              key={i}
+                              className=" list-none text-xl flex gap-2 items-center justify-start px-5 py-2 rounded-full hover:bg-[#E6E7EA]  transition-all"
+                              onClick={() => showfilesinfolder(folder.id)}
+                            >
+                              <RiArrowDropRightFill
+                                className={`text-3xl bg-transparent${
+                                  filesinfolder && "rotate-90"
+                                }`}
+                              />
+                              <span className="bg-transparent">
+                                {truncate(folder.foldername, 10)}
+                              </span>
+                            </button>
+                          </div>
+                        );
+                      })}
+                      <div
+                        className={`folders flex flex-col   transition-all ${
+                          filesinfolder && Showmydrive
+                            ? "scale-100 flex transition-all"
+                            : "scale-0  transition-all"
+                        }`}
+                      >
+                        {navfiles?.map((file, i) => {
+                          return (
+                            <button
+                              key={i}
+                              className=" list-none text-xl flex gap-2 items-center justify-start rounded-full px-5 py-2 hover:bg-[#E6E7EA]"
+                            >
+                              <RiArrowDropRightFill
+                                className={`text-3xl bg-transparent `}
+                              />
+                              <span className="bg-transparent text-black">
+                                {truncate(file.filename, 10)}
+                              </span>
+                            </button>
+                          );
+                        })}
+                        {navfolders?.map((folder, i) => {
+                          return (
+                            <button
+                              key={i}
+                              className=" list-none text-xl flex gap-2 items-center justify-start rounded-full px-5 py-2 hover:bg-[#E6E7EA]"
+                              onClick={() => showfilesinfolder(folder.id)}
+                            >
+                              <RiArrowDropRightFill
+                                className={`text-3xl bg-transparent `}
+                              />
+                              <span className="bg-transparent">
+                                {truncate(folder.foldername, 10)}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    // <div className="">
+    //   <div
+    //     className="list-none sub text-xl flex gap-2 items-center justify-start px-8 py-2 rounded-full hover:bg-[#E6E7EA]  transition-all"
+    //     onClick={(e) => props.showfilesinfolder(e, props.navfolders.id)}
+    //   >
+    //     <RiArrowDropRightFill
+    //       className={`text-3xl bg-transparent ${"rotate-90"}`}
+    //     />
+    //     <span className="bg-transparent">{props.navfolders.foldername}</span>
+    //   </div>
+    // </div>
