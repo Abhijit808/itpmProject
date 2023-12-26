@@ -12,25 +12,30 @@ const Sidenav_sub_component = ({
 }: Sidenav_sub_componentProps) => {
   return (
     <div>
-      <div className="overflow-x-hidden ">
+      <div className="overflow-x-hidden group">
         <div
-          className={`computers  flex items-center rounded-full border-2 border-black transition-all w-full group p-0 gap-1  `}
+          className={`computers  flex items-center rounded-full  w-full group-hover:bg-secondary p-0 gap-1  `}
         >
           {showArrow && (
             <RiArrowDropRightFill
               onClick={handleclick}
               className={`${
                 expand ? "rotate-0" : "rotate-90"
-              } rounded-full bg-transparent`}
+              } rounded-full bg-transparent group-hover:bg-secondary`}
             />
           )}
           <div
             className={`infowrapper flex ${
-              !showArrow && "px-3 pt-2 gap-2 rounded-full"
+              !showArrow &&
+              "px-2 p-[6px] gap-2 rounded-full group-hover:bg-secondary"
             }  `}
           >
-            <div className="imagewrapper w-5 h-5 bg-transparent ">{image}</div>
-            <span className="text-base font-medium">{nameOfTheComponent}</span>
+            <div className="imagewrapper w-5 h-5 bg-transparent group-hover:bg-secondary">
+              {image}
+            </div>
+            <span className="text-sm font-medium group-hover:bg-secondary">
+              {nameOfTheComponent}
+            </span>
           </div>
         </div>
       </div>

@@ -216,7 +216,7 @@ const Dashboard = () => {
         </div>
       ) : (
         <>
-          <main className="">
+          <main className="md:block hidden">
             <TopNav
               logo={logo}
               handleLogoutDropdown={handlelogoutdropdown}

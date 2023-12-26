@@ -19,27 +19,31 @@ const Nav = (props: any) => {
   //   return value.slice(0, nu) + "...";
   // };
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-hidden group">
       <div
-        className=" rounded-full border-2 border-black transition-all w-full group p-0 "
+        className=" rounded-full w-full  p-0 group-hover:bg-secondary"
         ref={widthRef}
       >
         {props.Folders?.name === "Mydrive" ? (
-          <div className="flex items-center gap-1   rounded-full">
+          <div className="flex items-center gap-1   rounded-full group-hover:bg-secondary">
             <RiArrowDropRightFill
               onClick={handleclick}
               className={`${
                 expand ? "rotate-0" : "rotate-90"
               } rounded-full bg-transparent`}
             />
-            <img src={drive} alt="" className="w-4 rounded-full" />
-            <span className="text-base font-medium ">
+            <img
+              src={drive}
+              alt=""
+              className="w-4 rounded-full group-hover:bg-secondary"
+            />
+            <span className="text-base font-medium group-hover:bg-secondary">
               {" "}
-              {props.Folders?.name}
+              {"My Drive"}
             </span>
           </div>
         ) : (
-          <div className="flex items-center gap-1 rounded-full">
+          <div className="flex items-center gap-1 rounded-full group-hover:bg-secondary">
             <RiArrowDropRightFill
               onClick={handleclick}
               className={`${
@@ -47,7 +51,7 @@ const Nav = (props: any) => {
               } rounded-full bg-transparent `}
             />
             <AiFillFolder />
-            <span className={`text-base font-medium`}>
+            <span className={`text-base font-medium group-hover:bg-secondary`}>
               {props.Folders?.name}
             </span>
           </div>

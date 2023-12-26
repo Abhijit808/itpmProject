@@ -123,7 +123,7 @@ const TopNav = (props: {
   };
   return (
     <header
-      className="grid grid-cols-2 md:grid-cols-16  gridjustify-around items-center my-2 gap-10 "
+      className="md:grid grid-cols-2 md:grid-cols-16  gridjustify-around items-center my-2 gap-10 hidden"
       onClick={close}
     >
       <div className="logo flex items-center gap-2 ml-10">

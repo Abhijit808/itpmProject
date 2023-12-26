@@ -13,11 +13,11 @@ const FolderOperationModel = (props: folderOperationModelprops) => {
   return (
     <div className="Create_wrapper relative w-full flex z-50">
       <button
-        className="flex gap-3 bg-white px-4 py-4 rounded-2xl  max-w-[20rem]  text-black justify-center items-center shadow-sm shadow-black"
+        className="flex gap-2 bg-white px-4 py-4 rounded-2xl  max-w-[20rem]  text-black justify-center items-center shadow-sm shadow-black"
         onClick={props.handlecreatefilesdropdown}
       >
         <AiOutlinePlus className="text-2xl font" />
-        <span className="text-lg">New</span>
+        <span className="text-base">New</span>
       </button>
       <div
         className={`border-2 border-black absolute top-[0px] p-2 w-96 ${

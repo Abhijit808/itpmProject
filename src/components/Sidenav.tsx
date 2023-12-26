@@ -68,7 +68,7 @@ const Sidenav = (props: any) => {
   console.log(Folders);
 
   return (
-    <nav className=" text-3xl side-nav  flex flex-col ml-10 gap-2 px-2 relative w-56 border-2 border-black visiblescrollbar resize-x ">
+    <nav className=" text-3xl side-nav md:flex flex-col ml-3 gap-2 px-2 relative w-56  visiblescrollbar resize-x hidden">
       <FolderOperationModel
         handlecreatefilesdropdown={props.handlecreatefilesdropdown}
         Handlecreatefilesdropdown={props.Handlecreatefilesdropdown}
@@ -96,7 +96,7 @@ const Sidenav = (props: any) => {
               width="20px"
               height="20px"
               viewBox="0 0 24 24"
-              fill="currentColor"
+              fill="#00000"
               focusable="false"
             >
               <path d="M0 0h24v24H0z" fill="none"></path>
@@ -107,7 +107,7 @@ const Sidenav = (props: any) => {
           showArrow={true}
         />
       </div>
-      <div className="partTwoWrapper mt-5">
+      <div className="partTwoWrapper mt-3">
         <Sidenav_sub_component
           handleclick={handleclick}
           expand={expand}
@@ -174,6 +174,73 @@ const Sidenav = (props: any) => {
             </svg>
           }
           nameOfTheComponent={"Starred"}
+          showArrow={false}
+        />
+      </div>
+      <div className="partThreeWrapper mt-3">
+        <Sidenav_sub_component
+          handleclick={handleclick}
+          expand={expand}
+          image={
+            <svg
+              className="c-qd "
+              width="24px"
+              height="24px"
+              viewBox="0 0 24 24"
+              fill="#000000"
+              focusable="false"
+            >
+              <g>
+                <rect fill="none" height="24" width="24"></rect>
+              </g>
+              <g>
+                <path d="M15.73,3H8.27L3,8.27v7.46L8.27,21h7.46L21,15.73V8.27L15.73,3z M12,17c-0.55,0-1-0.45-1-1s0.45-1,1-1s1,0.45,1,1 S12.55,17,12,17z M13,13h-2V7h2V13z"></path>
+              </g>
+            </svg>
+          }
+          nameOfTheComponent={"Spam"}
+          showArrow={false}
+        />
+        <Sidenav_sub_component
+          handleclick={handleclick}
+          expand={expand}
+          image={
+            <svg
+              width="24px"
+              height="24px"
+              viewBox="0 0 24 24"
+              fill="#000000"
+              focusable="false"
+              className=" c-qd"
+            >
+              <g>
+                <path d="M0,0h24v24H0V0z" fill="none"></path>
+              </g>
+              <g>
+                <path d="M15,4V3H9v1H4v2h1v13c0,1.1,0.9,2,2,2h10c1.1,0,2-0.9,2-2V6h1V4H15z M11,17H9V8h2V17z M15,17h-2V8h2V17z"></path>
+              </g>
+            </svg>
+          }
+          nameOfTheComponent={"Trash"}
+          showArrow={false}
+        />
+        <Sidenav_sub_component
+          handleclick={handleclick}
+          expand={expand}
+          image={
+            <svg
+              className="a-s-fa-Ha-pa c-qd a-ml-da-Q-c"
+              width="24px"
+              height="24px"
+              viewBox="0 0 24 24"
+              focusable="false"
+              fill="#6f6f6f"
+            >
+              <path d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h.71C7.37 7.69 9.48 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3s-1.34 3-3 3z"></path>
+            </svg>
+          }
+          nameOfTheComponent={"Storage"}
           showArrow={false}
         />
       </div>

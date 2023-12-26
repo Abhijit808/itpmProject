@@ -38,3 +38,7 @@ html{
     border-radius: 10px;
     background: #0b57d0; 
 }
+
+svg {
+    background: transparent;
+}
