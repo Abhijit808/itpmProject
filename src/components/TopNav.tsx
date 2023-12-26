@@ -94,6 +94,8 @@ const TopNav = (props: {
       inputref.current!.value = "";
       setAppInput(false);
       inputref.current?.blur();
+      console.log(showMore);
+
       return;
     }
   };

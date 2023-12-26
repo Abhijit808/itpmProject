@@ -1,6 +1,6 @@
 import { getToken, onMessage } from "firebase/messaging";
 import { message } from "../firebase/firebaseconfgig";
-import { adduserFCM } from "../queries/setUserNotifications";
+// import { adduserFCM } from "../queries/setUserNotifications";
 import { getFCM } from "../queries/getuserFcm";
 
 // Get registration token. Initially this makes a network call, once retrieved
