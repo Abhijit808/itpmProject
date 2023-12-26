@@ -12,16 +12,16 @@ const Nav = (props: any) => {
     setExpand(!expand);
   };
   // console.log(props.truncate("hee", 1));
-  const truncate = (value: string, nu: number) => {
-    if (value === undefined) {
-      return;
-    }
-    return value.slice(0, nu) + "...";
-  };
+  // const truncate = (value: string, nu: number) => {
+  //   if (value === undefined) {
+  //     return;
+  //   }
+  //   return value.slice(0, nu) + "...";
+  // };
   return (
     <div className="overflow-x-hidden">
       <div
-        className=" rounded-full border-2 border-black transition-all w-full group p-1 "
+        className=" rounded-full border-2 border-black transition-all w-full group p-0 "
         ref={widthRef}
       >
         {props.Folders?.name === "Mydrive" ? (
@@ -33,7 +33,10 @@ const Nav = (props: any) => {
               } rounded-full bg-transparent`}
             />
             <img src={drive} alt="" className="w-4 rounded-full" />
-            <span className="text-xl "> {props.Folders?.name}</span>
+            <span className="text-base font-medium ">
+              {" "}
+              {props.Folders?.name}
+            </span>
           </div>
         ) : (
           <div className="flex items-center gap-1 rounded-full">
@@ -44,7 +47,9 @@ const Nav = (props: any) => {
               } rounded-full bg-transparent `}
             />
             <AiFillFolder />
-            <span className={`text-xl`}>{props.Folders?.name}</span>
+            <span className={`text-base font-medium`}>
+              {props.Folders?.name}
+            </span>
           </div>
         )}
       </div>

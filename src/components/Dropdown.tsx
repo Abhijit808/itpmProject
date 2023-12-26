@@ -4,8 +4,7 @@ import { subfolders_and_files } from "../queries/getsubfolders";
 import { useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
 import { IoTrashOutline } from "react-icons/io5";
-import { BsDownload } from "react-icons/bs";
-import { RiArrowDropRightFill } from "react-icons/ri";
+
 // interface dropdowntype {
 //   id: string;
 //   state: boolean;

@@ -11,14 +11,14 @@ import { getsingledoc } from "../queries/getdoc";
 // import { ScaleLoader } from "react-spinners";
 import { FirebaseError } from "firebase/app";
 import { getFiles } from "../queries/getfiles";
-import { BiSearch } from "react-icons/bi";
+
 import logo from "../assets/drive_2020q4_48dp.png";
 import files from "../types/file";
 import Sidenav from "../components/Sidenav";
 import { DocumentData, Timestamp } from "firebase/firestore";
 import { getmessage, storeFCMToken } from "../notification/Notification";
 import Tabs from "../components/Tabs";
-import { GrApps } from "react-icons/gr";
+
 import TopNav from "../components/TopNav";
 const Dashboard = () => {
   const { folderid } = useParams();
@@ -88,11 +88,9 @@ const Dashboard = () => {
   const forceloading = (loading: boolean) => {
     setloading(loading);
   };
-  const handleLogout = async () => {
-    console.log("logoput");
-
-    
-  };
+  // const handleLogout = async () => {
+  //   console.log("logoput");
+  // };
   useEffect(() => {
     setfolders([]);
     const Data = async () => {
@@ -187,6 +185,7 @@ const Dashboard = () => {
   const handlelogoutdropdown = () => {
     console.log("handlelogoutdropdown");
     setHandleLogoutDropdown(!HandleLogoutDropdown);
+    console.log(auth.user);
   };
   const handlecreatefilesdropdown = (
     e: React.MouseEvent<HTMLButtonElement>

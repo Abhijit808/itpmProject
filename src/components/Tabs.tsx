@@ -1,9 +1,9 @@
 import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
-type obj = Array<{
-  id: string;
-  name: string;
-}>;
+// type obj = Array<{
+//   id: string;
+//   name: string;
+// }>;
 
 const Tabs = (Path: any) => {
   console.log(Path);

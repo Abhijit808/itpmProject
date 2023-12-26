@@ -5,7 +5,7 @@ import folders from "../types/folder";
 import Dropdown from "./Dropdown";
 import files from "../types/file";
 import { MouseEvent, useState } from "react";
-import { CiFileOn, CiFolderOn } from "react-icons/ci";
+import { CiFolderOn } from "react-icons/ci";
 // import { updatepath } from "../queries/updatepath"
 interface dropdowntype {
   id: string;
