@@ -5,18 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
 import { IoTrashOutline } from "react-icons/io5";
 
-// interface dropdowntype {
-//   id: string;
-//   state: boolean;
-// }
 const Dropdown = ({
   file,
   handlereload,
   handleloading,
+  id,
 }: {
   file: files | DocumentData;
   handlereload: (reload: boolean) => void;
   handleloading: (loading: boolean) => void;
+  id: any;
 }) => {
   const navigate = useNavigate();
   const handlefileDelete = async () => {
@@ -35,20 +33,24 @@ const Dropdown = ({
   };
   return (
     <div className="absolute -right-[7rem] top-14x px-1  z-10 transition-all">
-      <li className="val  list-none w-full hover:bg-white hover:text-black cursor-pointer transition-all px-2 py-2 border-2 border-b-black  pr-20 font-Abel uppercase flex items-center justify-start">
-        <IoTrashOutline className="w-10 h-6" />
-        <button onClick={handlefileDelete}>Move To Trash</button>
-      </li>
-      <li className="val  list-none w-full hover:bg-white hover:text-black cursor-pointer transition-all px-2  py-2 pr-20 font-Abel uppercase flex items-center justify-start">
-        <IoTrashOutline className="w-10 h-6" />
-        <button
-          onClick={() => {
-            console.log("hello");
-          }}
-        >
-          Move To Trash
-        </button>
-      </li>
+      {file.id === id && (
+        <ul>
+          <li className="val  list-none w-full hover:bg-white hover:text-black cursor-pointer transition-all px-2 py-2 border-2 border-b-black  pr-20 font-Abel uppercase flex items-center justify-start">
+            <IoTrashOutline className="w-10 h-6" />
+            <button onClick={handlefileDelete}>Move To Trash</button>
+          </li>
+          <li className="val  list-none w-full hover:bg-white hover:text-black cursor-pointer transition-all px-2  py-2 pr-20 font-Abel uppercase flex items-center justify-start">
+            <IoTrashOutline className="w-10 h-6" />
+            <button
+              onClick={() => {
+                console.log("hello");
+              }}
+            >
+              Move To Trash
+            </button>
+          </li>
+        </ul>
+      )}
     </div>
   );
 };

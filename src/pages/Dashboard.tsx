@@ -1,4 +1,10 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import {
+  MouseEvent,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Authprovider } from "../context/Authcontext";
 import { useNavigate, useParams } from "react-router-dom";
 import Folders from "../components/Folders";
@@ -8,34 +14,39 @@ import obj from "../types/obj";
 import { addData } from "../queries/adddoc";
 import { getData } from "../queries/getdocs";
 import { getsingledoc } from "../queries/getdoc";
-// import { ScaleLoader } from "react-spinners";
 import { FirebaseError } from "firebase/app";
 import { getFiles } from "../queries/getfiles";
-
 import logo from "../assets/drive_2020q4_48dp.png";
 import files from "../types/file";
 import Sidenav from "../components/Sidenav";
 import { DocumentData, Timestamp } from "firebase/firestore";
 import { getmessage, storeFCMToken } from "../notification/Notification";
 import Tabs from "../components/Tabs";
-
 import TopNav from "../components/TopNav";
+import { dropdowntype } from "../types/dropdowntype";
+import { RiArrowDropRightFill } from "react-icons/ri";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { AiOutlineCheck } from "react-icons/ai";
+import { MdGridView } from "react-icons/md";
 const Dashboard = () => {
   const { folderid } = useParams();
   const navigate = useNavigate();
   const auth = useContext(Authprovider);
   const [loading, setloading] = useState<boolean>(false);
   const [reload, setreload] = useState<boolean>(false);
+  const [seleted, setseleted] = useState<boolean>(false);
+  const [list, setList] = useState<boolean>(false);
+  const [grid, setGrid] = useState<boolean>(false);
   const [folders, setfolders] = useState<Array<folders | DocumentData>>([]);
-
   const [files, setfiles] = useState<Array<files | DocumentData>>([]);
-
-  const [destroy, setdestroy] = useState<boolean>(false);
+  const [dropdown, setdropdown] = useState<dropdowntype>({
+    id: "",
+    state: false,
+  });
   const [HandleLogoutDropdown, setHandleLogoutDropdown] =
     useState<boolean>(false);
   const [Handlecreatefilesdropdown, sethandlecreatefilesdropdown] =
     useState<boolean>(false);
-
   const [currentfolder, setcurrentfolder] = useState<folders | DocumentData>(
     {}
   );
@@ -172,14 +183,10 @@ const Dashboard = () => {
     call();
   }, [folders, call]);
 
-  const forcedDestory = (kill: boolean | undefined) => {
-    if (kill === undefined) return;
-    setdestroy(kill);
-  };
   const Destroy = () => {
-    forcedDestory(false);
     setHandleLogoutDropdown(false);
     sethandlecreatefilesdropdown(false);
+    setdropdown({ id: "", state: false });
     // setShowmydrive(false);
   };
   const handlelogoutdropdown = () => {
@@ -194,7 +201,22 @@ const Dashboard = () => {
     e.stopPropagation();
     sethandlecreatefilesdropdown(!Handlecreatefilesdropdown);
   };
-
+  const handleDropdownclick = (e: any, f: files | DocumentData) => {
+    e.stopPropagation();
+    setdropdown({ id: f.id, state: true });
+  };
+  const handleSelected = (e: MouseEvent<HTMLButtonElement>) => {
+    console.log(e.currentTarget.getAttribute("data-listview"));
+    if (e.currentTarget.getAttribute("data-listview") === "list") {
+      setGrid(false);
+      setList(true);
+      setseleted(true);
+    } else {
+      setList(false);
+      setGrid(true);
+      setseleted(true);
+    }
+  };
   const truncate = (value: string, nu: number) => {
     if (value === undefined) {
       return;
@@ -239,31 +261,47 @@ const Dashboard = () => {
 
               <div className="w-[70%] mx-auto flex flex-col gap-5">
                 <div className="folders ">
-                  <div className="flex gap-3">
-                    <h3 className="font-Abel text-2xl underline w-fit px-5 py-1 ml-2">
-                      {folderid === undefined
-                        ? "ROOT"
-                        : currentfolder.foldername}
-                    </h3>
-                    <h3 className="font-Abel text-2xl underline w-fit px-5 py-1 ml-2">
-                      Folders: {folders.length}
-                    </h3>
-                    <h3 className="font-Abel text-2xl underline w-fit px-5 py-1 ml-2">
-                      Files: {files.length}
-                    </h3>
+                  <div className="mydrive flex items-center justify-between">
+                    <button
+                      className="mydrive p-2   rounded-xl flex items-center relative"
+                      onClick={handlecreatefilesdropdown}
+                    >
+                      <span className="bg-transparent text-2xl text-black">
+                        My Drive
+                      </span>
+                      <RiArrowDropRightFill className="rotate-90 text-3xl text-black" />
+                    </button>
+                    <div className="tables_cards_toggel_btn_wrapper  border-2 border-black px-2 py-1 flex  rounded-full">
+                      <button
+                        onClick={(e) => handleSelected(e)}
+                        data-listview="list"
+                        className="border-r-2 border-black flex gap-1 items center pr-2"
+                      >
+                        {seleted && list && <AiOutlineCheck />}
+                        <GiHamburgerMenu />
+                      </button>
+                      <button
+                        onClick={(e) => handleSelected(e)}
+                        className="flex gap-1 items center pl-2"
+                      >
+                        {seleted && grid && <AiOutlineCheck />}
+                        <MdGridView />
+                      </button>
+                    </div>
                   </div>
                   <div className="tabs">
                     <Tabs Path={currentfolder.path} />
                   </div>
-                  <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-                    <Folders
-                      folder={folders}
-                      des={destroy}
-                      clic={forcedDestory}
-                      Reload={forcereload}
-                      Loading={forceloading}
-                    />
-                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-3 ">
+                  <Folders
+                    folder={folders}
+                    Reload={forcereload}
+                    Loading={forceloading}
+                    handleClick={handleDropdownclick}
+                    dropdown={dropdown}
+                  />
                 </div>
                 {(folders.length > 0 ||
                   files.length > 0 ||
@@ -273,10 +311,10 @@ const Dashboard = () => {
                 <div className="files grid grid-cols-1 gap-3 md:grid-cols-3 xl:grid-cols-4">
                   <Files
                     files={files}
-                    des={destroy}
-                    clic={forcedDestory}
                     Reload={forcereload}
                     Loading={forceloading}
+                    handleClick={handleDropdownclick}
+                    dropdown={dropdown}
                   />
                 </div>
               </div>

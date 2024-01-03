@@ -51,7 +51,9 @@ const Nav = (props: any) => {
               } rounded-full bg-transparent `}
             />
             <AiFillFolder />
-            <span className={`text-base font-medium group-hover:bg-secondary`}>
+            <span
+              className={`text-base font-medium group-hover:bg-secondary line-clamp-1`}
+            >
               {props.Folders?.name}
             </span>
           </div>
