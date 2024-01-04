@@ -16,25 +16,16 @@ function requestPermission() {
 
 // const messaging = getMessaging();
 requestPermission();
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("../firebase-messaging-sw.js")
-    .then(function (registration) {
-      console.log("Registration successful, scope is:", registration.scope);
-    })
-    .catch(function (err) {
-      console.log("Service worker registration failed, error:", err);
-    });
-}
+
 export const storeFCMToken = async (user: any) => {
   console.log(user);
+  console.log("here");
 
   const FCMExists = await getFCM(user.uid);
   console.log({ ...FCMExists.data() });
 
   const GetToken = getToken(message, {
-    vapidKey:
-      "BGkW3-tZOwPDheTlkFSad7SCk40HzOu-wlZ8dXjbt2iWQP2WUwvA9qpJb5YXwIi30-uSNcOoOopyEW5sy5mH910",
+    vapidKey: import.meta.env.VITE_NOTIFICATION_ID,
   })
     .then(async (currentToken) => {
       if (currentToken) {
