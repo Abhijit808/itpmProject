@@ -13,7 +13,19 @@ function requestPermission() {
     }
   });
 }
+// export const askForNotification = async () => {
+//   const tempMessaging = await messaging();
 
+//   if (tempMessaging) {
+//     const newSw = await navigator.serviceWorker.register(
+//       '/homepage/basename/firebase-messaging-sw.js'
+//     );
+
+//     return getNotificationPermission(
+//       async () => await getToken(tempMessaging, { vapidKey, serviceWorkerRegistration:newSw })
+//     );
+//   }
+// };
 // const messaging = getMessaging();
 requestPermission();
 

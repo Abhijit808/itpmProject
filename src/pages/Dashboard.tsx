@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { Authprovider } from "../context/Authcontext";
@@ -28,6 +29,7 @@ import { RiArrowDropRightFill } from "react-icons/ri";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineCheck } from "react-icons/ai";
 import { MdGridView } from "react-icons/md";
+import FolderOperationModel from "../components/FolderOperationModel";
 const Dashboard = () => {
   const { folderid } = useParams();
   const navigate = useNavigate();
@@ -36,7 +38,9 @@ const Dashboard = () => {
   const [reload, setreload] = useState<boolean>(false);
   const [seleted, setseleted] = useState<boolean>(false);
   const [list, setList] = useState<boolean>(false);
-  const [grid, setGrid] = useState<boolean>(false);
+  const [grid, setGrid] = useState<boolean>(true);
+  const [place, setplace] = useState<number>(9);
+  const [dropdownPosition, setdropdownPosition] = useState<boolean>(true);
   const [folders, setfolders] = useState<Array<folders | DocumentData>>([]);
   const [files, setfiles] = useState<Array<files | DocumentData>>([]);
   const [dropdown, setdropdown] = useState<dropdowntype>({
@@ -50,6 +54,7 @@ const Dashboard = () => {
   const [currentfolder, setcurrentfolder] = useState<folders | DocumentData>(
     {}
   );
+  const parentref = useRef<HTMLDivElement>(null);
   type pathobj = {
     id: string;
     name: string;
@@ -100,6 +105,17 @@ const Dashboard = () => {
     setloading(loading);
   };
   // const handleLogout = async () => {
+  useEffect(() => {
+    if (parentref.current === null) {
+      return;
+    }
+    if (parentref.current.scrollHeight > parentref.current.clientHeight) {
+      setdropdownPosition(true);
+      return;
+    } else {
+      setdropdownPosition(false);
+    }
+  }, [dropdownPosition]);
   //   console.log("logoput");
   // };
   useEffect(() => {
@@ -197,13 +213,29 @@ const Dashboard = () => {
   const handlecreatefilesdropdown = (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
-    console.log(e.target);
+    console.log(e.currentTarget.ariaLabel);
+    console.log(e.currentTarget.querySelector("span"));
     e.stopPropagation();
-    sethandlecreatefilesdropdown(!Handlecreatefilesdropdown);
+    sethandlecreatefilesdropdown(true);
+    if (e.currentTarget.querySelector("span") === null) {
+      setplace(1);
+    }
+    if (e.currentTarget.querySelector("span") !== null) {
+      setplace(0);
+    }
   };
   const handleDropdownclick = (e: any, f: files | DocumentData) => {
     e.stopPropagation();
     setdropdown({ id: f.id, state: true });
+    console.log("child Height " + e.currentTarget.offsetHeight);
+    console.log("child scroll " + e.currentTarget.scrollHeight);
+    console.log("child rect " + e.currentTarget.getBoundingClientRect().bottom);
+    console.log("parent Height " + parentref.current!.offsetHeight);
+    console.log("parent Scroll " + parentref.current?.scrollHeight);
+    console.log("parent client " + parentref.current?.clientHeight);
+    console.log(
+      "parent rect " + parentref.current?.getBoundingClientRect().bottom
+    );
   };
   const handleSelected = (e: MouseEvent<HTMLButtonElement>) => {
     console.log(e.currentTarget.getAttribute("data-listview"));
@@ -257,20 +289,38 @@ const Dashboard = () => {
                 folders={folders}
                 auth={auth}
                 truncate={truncate}
+                place={place}
               />
 
               <div className="w-[70%] mx-auto flex flex-col gap-5">
                 <div className="folders ">
                   <div className="mydrive flex items-center justify-between">
-                    <button
-                      className="mydrive p-2   rounded-xl flex items-center relative"
-                      onClick={handlecreatefilesdropdown}
-                    >
-                      <span className="bg-transparent text-2xl text-black">
-                        My Drive
-                      </span>
-                      <RiArrowDropRightFill className="rotate-90 text-3xl text-black" />
-                    </button>
+                    <div className="flex items-center">
+                      <button
+                        className="mydrive p-2   rounded-xl flex items-center relative flex-1"
+                        onClick={handlecreatefilesdropdown}
+                      >
+                        <span className="bg-transparent text-2xl text-black">
+                          My Drive
+                        </span>
+                      </button>
+                      <div>
+                        <FolderOperationModel
+                          handlecreatefilesdropdown={handlecreatefilesdropdown}
+                          Handlecreatefilesdropdown={Handlecreatefilesdropdown}
+                          handleclick={handleclick}
+                          currentfolder={currentfolder}
+                          forcereload={forcereload}
+                          forceloading={forceloading}
+                          icon={
+                            <RiArrowDropRightFill className="rotate-90 text-3xl text-black" />
+                          }
+                          dropdown={true}
+                          dropdownplace={place}
+                          id={1}
+                        />
+                      </div>
+                    </div>
                     <div className="tables_cards_toggel_btn_wrapper  border-2 border-black px-2 py-1 flex  rounded-full">
                       <button
                         onClick={(e) => handleSelected(e)}
@@ -294,29 +344,35 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-3 ">
+                <div>
                   <Folders
                     folder={folders}
                     Reload={forcereload}
                     Loading={forceloading}
                     handleClick={handleDropdownclick}
                     dropdown={dropdown}
+                    files={files}
+                    list={list}
+                    parentref={parentref}
+                    dropdownPosition={dropdownPosition}
                   />
                 </div>
-                {(folders.length > 0 ||
+                {/* {(folders.length > 0 ||
                   files.length > 0 ||
                   (folders.length > 0 && files.length > 0)) && (
                   <div className="line h-1 w-full bg-black rounded-sm "></div>
+                )} */}
+                {!list && (
+                  <div className="files grid grid-cols-1 gap-3 md:grid-cols-3 xl:grid-cols-4">
+                    <Files
+                      files={files}
+                      Reload={forcereload}
+                      Loading={forceloading}
+                      handleClick={handleDropdownclick}
+                      dropdown={dropdown}
+                    />
+                  </div>
                 )}
-                <div className="files grid grid-cols-1 gap-3 md:grid-cols-3 xl:grid-cols-4">
-                  <Files
-                    files={files}
-                    Reload={forcereload}
-                    Loading={forceloading}
-                    handleClick={handleDropdownclick}
-                    dropdown={dropdown}
-                  />
-                </div>
               </div>
             </main>
           </main>

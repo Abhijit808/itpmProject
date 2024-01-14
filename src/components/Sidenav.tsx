@@ -5,6 +5,7 @@ import { get_all_folders_created_by_a_user } from "../queries/get_all_folders_cr
 import Nav from "./Nav";
 import FolderOperationModel from "../components/FolderOperationModel";
 import Sidenav_sub_component from "./Sidenav_sub_component";
+import { AiOutlinePlus } from "react-icons/ai";
 
 const Sidenav = (props: any) => {
   // const [navfolders, setnavfolders] = useState<any>();
@@ -76,6 +77,10 @@ const Sidenav = (props: any) => {
         currentfolder={props.currentfolder}
         forcereload={props.forcereload}
         forceloading={props.forceloading}
+        icon={<AiOutlinePlus className="text-2xl font" />}
+        dropdown={false}
+        dropdownplace={props.place}
+        id={0}
       />
       <div className="partonewrapper">
         <div className="showwrapper">

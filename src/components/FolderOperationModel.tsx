@@ -5,23 +5,30 @@ import Docs from "../assets/images (1).png";
 import sheets from "../assets/unnamed.png";
 import slides from "../assets/images.png";
 import forms from "../assets/google-forms.webp";
-import { AiOutlineFolderAdd, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineFolderAdd } from "react-icons/ai";
 import Model from "./Model";
 import Uploadfiles from "./Uploadfiles";
 import { folderOperationModelprops } from "../types/folderOperationModelProps";
 const FolderOperationModel = (props: folderOperationModelprops) => {
   return (
-    <div className="Create_wrapper relative w-full flex z-50">
-      <button
-        className="flex gap-2 bg-white px-4 py-4 rounded-2xl  max-w-[20rem]  text-black justify-center items-center shadow-sm shadow-black"
-        onClick={props.handlecreatefilesdropdown}
-      >
-        <AiOutlinePlus className="text-2xl font" />
-        <span className="text-base">New</span>
-      </button>
+    <div className="Create_wrapper relative w-full flex z-10">
+      {
+        <button
+          className={` ${
+            !props.dropdown &&
+            "flex gap-2 bg-white px-4 py-4 rounded-2xl  max-w-[20rem]  text-black justify-center items-center shadow-sm shadow-black"
+          }`}
+          onClick={props.handlecreatefilesdropdown}
+        >
+          {props.icon}
+          {!props.dropdown && <span className="text-base span">New</span>}
+        </button>
+      }
       <div
-        className={`border-2 border-black absolute top-[0px] p-2 w-96 ${
-          props.Handlecreatefilesdropdown
+        className={`absolute p-2 w-96 ${
+          props.dropdownplace === 0 ? "top-[0px]" : "top-10 -left-10"
+        } ${
+          props.Handlecreatefilesdropdown && props.dropdownplace === props.id
             ? "opacity-1 scale-100"
             : "opacity-0 scale-0"
         } transition-all `}
