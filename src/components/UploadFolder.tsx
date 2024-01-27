@@ -6,7 +6,8 @@ import { uploadEntireFolder } from "../queries/uploadfolders";
 import { Timestamp } from "firebase/firestore";
 import { Authprovider } from "../context/Authcontext";
 
-import { Store } from "../queries/uploadfile";
+// import { Store } from "../queries/uploadfile";
+import { UploadFiles } from "../Hooks/useUploadFiles";
 interface RelativePath {
   name: string;
   id: string;
@@ -64,7 +65,7 @@ const upload = async (
       relativePath.id = fileupload.id;
       relativePath.name = file[index].webkitRelativePath.split("/")[0];
       relativePath.path = Folder.path;
-      const store = await Store(
+      UploadFiles(
         uid.toString(),
         file[0],
         [
@@ -73,7 +74,7 @@ const upload = async (
         ],
         relativePath.id
       );
-      console.log(store.id);
+      // console.log(store.id);
     }
 
     const File = file[index];
@@ -129,7 +130,7 @@ const upload = async (
           relativePath.name = Folder.foldername;
           relativePath.path = Folder.path;
         }
-        const store = await Store(
+        UploadFiles(
           uid.toString(),
           File,
           [
@@ -138,7 +139,7 @@ const upload = async (
           ],
           relativePath.id
         );
-        console.log(store.id);
+        // console.log(store.id);
       }
       i++;
     }

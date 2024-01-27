@@ -63,7 +63,7 @@ const Folders = ({
                 >
                   <CiFolderOn className="text-2xl" />
                   <button className="w-[7rem] overflow-hidden">
-                    <span className="line-clamp-1 bg-transparent uppercase">
+                    <span className="clamp bg-transparent uppercase">
                       {f.foldername}
                     </span>
                   </button>
@@ -100,8 +100,8 @@ const Folders = ({
                     className="w-full p-2 border-y-2 border-secondary pl-2 grid grid-cols-folders"
                   >
                     <div className="line-clamp-1 flex gap-1 ">
-                      <CiFolderOn className="text-2xl" />
-                      <span>{folder.foldername}</span>
+                      <CiFolderOn className="text-2xl " />
+                      <span className="clamp">{folder.foldername}</span>
                     </div>
                     <span className=" flex justify-center">me</span>
                     <span className=" flex justify-center">--</span>

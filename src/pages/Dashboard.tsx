@@ -36,7 +36,7 @@ const Dashboard = () => {
   const auth = useContext(Authprovider);
   const [loading, setloading] = useState<boolean>(false);
   const [reload, setreload] = useState<boolean>(false);
-  const [seleted, setseleted] = useState<boolean>(false);
+  const [seleted, setseleted] = useState<boolean>(true);
   const [list, setList] = useState<boolean>(false);
   const [grid, setGrid] = useState<boolean>(true);
   const [place, setplace] = useState<number>(9);

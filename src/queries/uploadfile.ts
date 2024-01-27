@@ -1,10 +1,8 @@
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage, store } from "../firebase/firebaseconfgig";
 import { addDoc, collection } from "firebase/firestore";
-interface fileppaths {
-  id: string;
-  name: string;
-}
+import { fileppaths } from "../types/fileppaths";
+
 export const Store = async (
   uid: string,
   file: File,

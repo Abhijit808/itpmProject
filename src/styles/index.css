@@ -45,3 +45,25 @@ svg {
 .dots{
     color: #FFFF;
 }
+.clamp{
+    overflow: hidden ;
+    display: -webkit-box ;
+    -webkit-box-orient: vertical ;
+    -webkit-line-clamp: 1 ;
+    word-break: break-all;
+}
+
+    /* .clamp {
+        border:1rem solid #0000;
+        box-shadow:0 1px 0 #000; 
+        margin-bottom:1px;
+        width:100%;
+        background-color:red;
+        
+      color:#000;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: hidden;
+    } */
