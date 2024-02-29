@@ -8,6 +8,7 @@ import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Protectedroute from "./router/Protectedroute.tsx";
+// import PercentageContext from "./context/PercentageContext.tsx";
 
 // import Authcontext from './context/Authcontext.tsx'
 

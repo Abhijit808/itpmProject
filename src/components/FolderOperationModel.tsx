@@ -9,7 +9,17 @@ import { AiOutlineFolderAdd } from "react-icons/ai";
 import Model from "./Model";
 import Uploadfiles from "./Uploadfiles";
 import { folderOperationModelprops } from "../types/folderOperationModelProps";
+
+import { useMemo, useState } from "react";
+// import Toast from "./Toast";
 const FolderOperationModel = (props: folderOperationModelprops) => {
+  const [percentage, setPercentage] = useState<number>(0);
+  const [success, setSuccess] = useState<boolean>(false);
+  // console.log(percentage, success);
+  useMemo(() => {
+    props.Percentage(percentage);
+    props.Success(success);
+  }, [percentage]);
   return (
     <div className="Create_wrapper relative w-full flex z-10">
       {
@@ -48,11 +58,14 @@ const FolderOperationModel = (props: folderOperationModelprops) => {
           onsave={props.handleclick}
           folder={props.currentfolder}
         />
+
         <div className="upload_wrapper border-b-2 border-black w-full">
           <Uploadfiles
             folders={props.currentfolder}
             handlereload={props.forcereload}
             handleloading={props.forceloading}
+            setPercentage={setPercentage}
+            setSuccess={setSuccess}
           />
           <UploadFolder
             folders={props.currentfolder}
@@ -93,6 +106,10 @@ const FolderOperationModel = (props: folderOperationModelprops) => {
           </ul>
           <div className="more flex justify-between items-center pt-2">
             <span className="text-base font-bold pl-3 ">More</span>
+            <RiArrowDropRightFill />
+          </div>
+          <div className="more flex justify-between items-center pt-2">
+            <span className="text-base font-bold pl-3 "> </span>
             <RiArrowDropRightFill />
           </div>
         </div>

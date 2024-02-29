@@ -9,32 +9,32 @@ import {
   useState,
 } from "react";
 import { Authprovider } from "../context/Authcontext";
-// import * as f from "../queries/uploadfile";
-// import { useParams } from "react-router-dom";
+
 import useUploadFiles from "../Hooks/useUploadFiles";
+import { percentageProvider } from "../context/PercentageContext";
+
 const Uploadfiles = ({
   folders,
   handlereload,
   handleloading,
+  setPercentage,
+  setSuccess,
 }: {
   folders: folders | DocumentData;
   handlereload: (reload: boolean) => void;
   handleloading: (reload: boolean) => void;
+  setPercentage: (value: number) => void;
+  setSuccess: (value: boolean) => void;
 }) => {
-  console.log(folders);
-  // useEffect(() => {
-  //   handleloading(false);
-  //   handlereload(false);
-  // }, []);
-  // const { folderid } = useParams();
   const [file, setfile] = useState<File>();
   const auth = useContext(Authprovider);
+  const per = useContext(percentageProvider);
   const handlechange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files === null) return;
     setfile(e.target.files[0]);
   };
 
-  useUploadFiles(
+  const { uploadPercentage, success } = useUploadFiles(
     auth.user.uid,
     file,
     folders.id,
@@ -43,33 +43,9 @@ const Uploadfiles = ({
     handlereload
   );
 
-  //   // handlereload(false);
-  //   handleloading(true);
-  //
-  //   // handleloading(true);
-  //   console.log(folderid);
-  //   const fileppath = {
-  //     id: "Root",
-  //     name: "Root",
-  //   };
-  //   if (folderid === undefined) {
-  //     await f.Store(auth.user.uid, file, [fileppath], null);
-  //     handlereload(true);
-  //     handleloading(false);
-  //   } else {
-  //     await f.Store(auth.user.uid, file, folders.path, folders.id);
-
-  //     handleloading(false);
-  //     handlereload(true);
-  //   }
-
-  //   // handlereload(false)
-  //   // handlereload(true);
-  // }, [file]);
-  // // console.log(folders);
-  // useEffect(() => {
-  //   handlestore();
-  // }, [file, handlestore]);
+  setPercentage(uploadPercentage);
+  setSuccess(success);
+  per?.setPercentage(uploadPercentage);
   return (
     <>
       <label className="relative cursor-pointer overflow-hidden button text-black flex w-full gap-5 px-2 py-2 items-center text-3xl ">

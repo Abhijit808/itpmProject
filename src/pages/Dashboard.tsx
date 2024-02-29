@@ -30,10 +30,13 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineCheck } from "react-icons/ai";
 import { MdGridView } from "react-icons/md";
 import FolderOperationModel from "../components/FolderOperationModel";
+import Toast from "../components/Toast";
+import { percentageProvider } from "../context/PercentageContext";
 const Dashboard = () => {
   const { folderid } = useParams();
   const navigate = useNavigate();
   const auth = useContext(Authprovider);
+  const pervalue = useContext(percentageProvider);
   const [loading, setloading] = useState<boolean>(false);
   const [reload, setreload] = useState<boolean>(false);
   const [seleted, setseleted] = useState<boolean>(true);
@@ -54,11 +57,16 @@ const Dashboard = () => {
   const [currentfolder, setcurrentfolder] = useState<folders | DocumentData>(
     {}
   );
+  const [percentage, setPercentage] = useState<number>(0);
+  const [success, setSuccess] = useState<boolean>(false);
   const parentref = useRef<HTMLDivElement>(null);
+  console.log(pervalue?.percentage);
+
   type pathobj = {
     id: string;
     name: string;
   };
+
   const handleclick = async (input: string, currentfolder: obj) => {
     const Path: pathobj[] = [];
 
@@ -104,6 +112,15 @@ const Dashboard = () => {
   const forceloading = (loading: boolean) => {
     setloading(loading);
   };
+  const Percentage = (value: number) => {
+    setPercentage(value);
+    console.log(value);
+  };
+  const Success = (value: boolean) => {
+    setSuccess(value);
+  };
+  // Percentage(10);
+
   // const handleLogout = async () => {
   useEffect(() => {
     if (parentref.current === null) {
@@ -270,7 +287,10 @@ const Dashboard = () => {
         </div>
       ) : (
         <>
-          <main className="md:block hidden">
+          <main className="md:block hidden" onClick={Destroy}>
+            <div className="relative bg-red-600">
+              <Toast upload={percentage} success={success} />
+            </div>
             <TopNav
               logo={logo}
               handleLogoutDropdown={handlelogoutdropdown}
@@ -278,7 +298,7 @@ const Dashboard = () => {
               Photo={auth.user.photoURL}
               logOut={auth}
             />
-            <main onClick={Destroy} className="cursor-pointer h-[100vh] flex">
+            <main className="cursor-pointer h-[100vh] flex">
               <Sidenav
                 handlecreatefilesdropdown={handlecreatefilesdropdown}
                 Handlecreatefilesdropdown={Handlecreatefilesdropdown}
@@ -290,6 +310,8 @@ const Dashboard = () => {
                 auth={auth}
                 truncate={truncate}
                 place={place}
+                Percentage={setPercentage}
+                Success={setSuccess}
               />
 
               <div className="w-[70%] mx-auto flex flex-col gap-5">
@@ -318,6 +340,8 @@ const Dashboard = () => {
                           dropdown={true}
                           dropdownplace={place}
                           id={1}
+                          Percentage={Percentage}
+                          Success={Success}
                         />
                       </div>
                     </div>

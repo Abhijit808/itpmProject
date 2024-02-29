@@ -19,7 +19,9 @@ const Folders = ({
   files,
   parentref,
   dropdownPosition,
-}: {
+}: // success,
+// Percentage,
+{
   folder: Array<folders | DocumentData>;
   handleClick: (e: any, f: DocumentData | files) => void;
   dropdown: dropdowntype;
@@ -29,10 +31,13 @@ const Folders = ({
   dropdownPosition: boolean;
   files: (DocumentData | files)[];
   parentref: RefObject<HTMLDivElement>;
+  // success: (value: boolean) => void;
+  // Percentage: (value: number) => void;
 }) => {
   const dropdownref = useRef<HTMLButtonElement>(null);
 
-  useRef;
+  // success(true);
+  // Percentage(100);
   return (
     <>
       {!list ? (

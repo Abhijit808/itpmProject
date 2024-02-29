@@ -11,7 +11,7 @@ const Tabs = (Path: any) => {
     return <div></div>;
   } else {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 breadcrumbs">
         {Path.Path.map((p: any, i: any) => {
           return (
             <Link

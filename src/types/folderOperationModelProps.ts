@@ -13,4 +13,6 @@ export interface folderOperationModelprops {
   dropdown: boolean;
   dropdownplace: number;
   id: number;
+  Percentage: any;
+  Success: any;
 }

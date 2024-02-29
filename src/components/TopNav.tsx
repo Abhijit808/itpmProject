@@ -146,7 +146,7 @@ const TopNav = (props: {
           } relative`}
         />
         {appInput ? (
-          <div className="absolute left-0 right-0  top-12">
+          <div className="absolute left-0 right-0  top-12 z-50">
             <div>
               <div
                 onClick={() => {

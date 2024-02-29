@@ -4,7 +4,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { storage, store } from "../firebase/firebaseconfgig";
 import { addDoc, collection } from "firebase/firestore";
 import { fileppaths } from "../types/fileppaths";
@@ -21,56 +21,56 @@ const UploadFiles = (uid: string, file: File, path: fileppaths[], id: any) => {
   const storageref = ref(storage, `${uid}/${Path}/${file.name}`);
 
   const uploadTask = uploadBytesResumable(storageref, file);
+  return { uploadTask, storageref };
+  // uploadTask.on(
+  //   "state_changed",
+  //   (snapshot) => {
+  //     // handleloading(true);
+  //     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //     console.log("Upload is " + progress + "% done");
+  //     switch (snapshot.state) {
+  //       case "paused":
+  //         console.log("Upload is paused");
+  //         break;
+  //       case "running":
+  //         console.log("Upload is running");
+  //         break;
+  //     }
+  //   },
+  //   (error: StorageError) => {
+  //     console.log(error.message);
+  //   },
+  //   () => {
+  //     getDownloadURL(uploadTask.snapshot.ref)
+  //       .then((downloadURL) => {
+  //         console.log("File available at", downloadURL);
+  //         const fileobj = {
+  //           createdby: uid,
+  //           path: path,
+  //           url: downloadURL,
+  //           foldername: id,
+  //           filename: file.name,
+  //           ref: storageref.fullPath,
+  //         };
+  //         const fileref = collection(store, "files");
+  //         addDoc(fileref, {
+  //           ...fileobj,
+  //         })
+  //           .then((d) => {
+  //             console.log(d);
+  //           })
+  //           .catch((err) => {
+  //             throw new Error(err);
+  //           });
+  //       })
+  //       .catch((err) => {
+  //         throw new Error(err);
+  //       });
 
-  uploadTask.on(
-    "state_changed",
-    (snapshot) => {
-      // handleloading(true);
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log("Upload is " + progress + "% done");
-      switch (snapshot.state) {
-        case "paused":
-          console.log("Upload is paused");
-          break;
-        case "running":
-          console.log("Upload is running");
-          break;
-      }
-    },
-    (error: StorageError) => {
-      console.log(error.message);
-    },
-    () => {
-      getDownloadURL(uploadTask.snapshot.ref)
-        .then((downloadURL) => {
-          console.log("File available at", downloadURL);
-          const fileobj = {
-            createdby: uid,
-            path: path,
-            url: downloadURL,
-            foldername: id,
-            filename: file.name,
-            ref: storageref.fullPath,
-          };
-          const fileref = collection(store, "files");
-          addDoc(fileref, {
-            ...fileobj,
-          })
-            .then((d) => {
-              console.log(d);
-            })
-            .catch((err) => {
-              throw new Error(err);
-            });
-        })
-        .catch((err) => {
-          throw new Error(err);
-        });
-
-      // handleloading(false);
-      // handlereload(true);
-    }
-  );
+  //     // handleloading(false);
+  //     // handlereload(true);
+  //   }
+  // );
 };
 function useUploadFiles(
   uid: string,
@@ -81,7 +81,8 @@ function useUploadFiles(
   handlereload: (reload: boolean) => void
 ) {
   const { folderid } = useParams();
-
+  const [uploadPercentage, setuploadPercentage] = useState<number>(0);
+  const [success, setsuccess] = useState<boolean>(false);
   const handlestore = useCallback(() => {
     if (file === undefined) return;
 
@@ -93,16 +94,110 @@ function useUploadFiles(
     };
 
     if (folderid === undefined) {
-      UploadFiles(uid, file, [fileppath], null);
+      const { uploadTask, storageref } = UploadFiles(
+        uid,
+        file,
+        [fileppath],
+        null
+      );
+      // console.log(uploadTask);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setuploadPercentage(progress);
+        },
+        (error: StorageError) => {
+          throw new Error(error.message);
+        },
+        () => {
+          getDownloadURL(storageref)
+            .then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              const fileobj = {
+                createdby: uid,
+                path: [fileppath],
+                url: downloadURL,
+                foldername: null,
+                filename: file.name,
+                ref: storageref.fullPath,
+              };
+              const fileref = collection(store, "files");
+              addDoc(fileref, {
+                ...fileobj,
+              })
+                .then((d) => {
+                  console.log(d);
+                  setsuccess(true);
+                  handlereload(true);
+                })
+                .catch((err) => {
+                  setsuccess(false);
+                  throw new Error(err);
+                });
+            })
+            .catch((err) => {
+              setsuccess(false);
+              throw new Error(err);
+            });
+        }
+      );
     } else {
-      UploadFiles(uid, file, folderPath, id);
+      const { uploadTask, storageref } = UploadFiles(uid, file, folderPath, id);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setuploadPercentage(progress);
+        },
+        (error: StorageError) => {
+          throw new Error(error.message);
+        },
+        () => {
+          getDownloadURL(storageref)
+            .then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              const fileobj = {
+                createdby: uid,
+                path: folderPath,
+                url: downloadURL,
+                foldername: id,
+                filename: file.name,
+                ref: storageref.fullPath,
+              };
+              const fileref = collection(store, "files");
+              addDoc(fileref, {
+                ...fileobj,
+              })
+                .then((d) => {
+                  console.log(d);
+                  setsuccess(true);
+                  handlereload(true);
+                })
+                .catch((err) => {
+                  // setsuccess(false);
+                  throw new Error(err);
+                });
+            })
+            .catch((err) => {
+              // setsuccess(false);
+              throw new Error(err);
+            });
+        }
+      );
     }
     handleloading(false);
-    handlereload(true);
+    //
   }, [file]);
+
   useEffect(() => {
     handlestore();
   }, [file, handlestore]);
+
+  return { uploadPercentage, success };
 }
 
 export default useUploadFiles;

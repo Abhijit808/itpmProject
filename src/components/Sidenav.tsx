@@ -81,6 +81,8 @@ const Sidenav = (props: any) => {
         dropdown={false}
         dropdownplace={props.place}
         id={0}
+        Percentage={props.Percentage}
+        Success={props.Success}
       />
       <div className="partonewrapper">
         <div className="showwrapper">
