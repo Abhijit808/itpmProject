@@ -30,7 +30,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineCheck } from "react-icons/ai";
 import { MdGridView } from "react-icons/md";
 import FolderOperationModel from "../components/FolderOperationModel";
-import Toast from "../components/Toast";
+// import Toast from "../components/Toast";
 import { percentageProvider } from "../context/PercentageContext";
 const Dashboard = () => {
   const { folderid } = useParams();
@@ -61,6 +61,7 @@ const Dashboard = () => {
   const [success, setSuccess] = useState<boolean>(false);
   const parentref = useRef<HTMLDivElement>(null);
   console.log(pervalue?.percentage);
+  console.log(percentage, success);
 
   type pathobj = {
     id: string;
