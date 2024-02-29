@@ -288,9 +288,9 @@ const Dashboard = () => {
       ) : (
         <>
           <main className="md:block hidden" onClick={Destroy}>
-            <div className="relative bg-red-600">
+            {/* <div className="relative bg-red-600">
               <Toast upload={percentage} success={success} />
-            </div>
+            </div> */}
             <TopNav
               logo={logo}
               handleLogoutDropdown={handlelogoutdropdown}
