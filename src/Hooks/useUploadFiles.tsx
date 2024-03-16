@@ -77,17 +77,16 @@ function useUploadFiles(
   file: File | undefined,
   id: any,
   folderPath: any,
-  handleloading: (reload: boolean) => void,
+  handleloading: (loading: boolean) => void,
   handlereload: (reload: boolean) => void
 ) {
   const { folderid } = useParams();
   const [uploadPercentage, setuploadPercentage] = useState<number>(0);
   const [success, setsuccess] = useState<boolean>(false);
   const handlestore = useCallback(() => {
+    handleloading(true);
     if (file === undefined) return;
 
-    handleloading(true);
-    console.log(folderid);
     const fileppath = {
       id: "Root",
       name: "Root",
@@ -132,6 +131,7 @@ function useUploadFiles(
                   console.log(d);
                   setsuccess(true);
                   handlereload(true);
+                  handleloading(false);
                 })
                 .catch((err) => {
                   setsuccess(false);
@@ -176,6 +176,7 @@ function useUploadFiles(
                   console.log(d);
                   setsuccess(true);
                   handlereload(true);
+                  handleloading(false);
                 })
                 .catch((err) => {
                   // setsuccess(false);
@@ -189,7 +190,7 @@ function useUploadFiles(
         }
       );
     }
-    handleloading(false);
+
     //
   }, [file]);
 

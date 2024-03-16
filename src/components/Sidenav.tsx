@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getData } from "../queries/getdocs";
 import { get_all_folders_created_by_a_user } from "../queries/get_all_folders_created_by_a_user";
-
 import Nav from "./Nav";
 import FolderOperationModel from "../components/FolderOperationModel";
 import Sidenav_sub_component from "./Sidenav_sub_component";
 import { AiOutlinePlus } from "react-icons/ai";
+import { Authprovider } from "../context/Authcontext";
 
 const Sidenav = (props: any) => {
-  // const [navfolders, setnavfolders] = useState<any>();
+  const auth = useContext(Authprovider);
+
   const [Folders, setFolders] = useState<any>({
     name: "My Drive",
     id: null,
@@ -69,22 +70,30 @@ const Sidenav = (props: any) => {
   console.log(Folders);
 
   return (
-    <nav className=" text-3xl side-nav md:flex flex-col ml-3 gap-2 px-2 relative w-56  visiblescrollbar resize-x hidden">
-      <FolderOperationModel
-        handlecreatefilesdropdown={props.handlecreatefilesdropdown}
-        Handlecreatefilesdropdown={props.Handlecreatefilesdropdown}
-        handleclick={props.handleclick}
-        currentfolder={props.currentfolder}
-        forcereload={props.forcereload}
-        forceloading={props.forceloading}
-        icon={<AiOutlinePlus className="text-2xl font" />}
-        dropdown={false}
-        dropdownplace={props.place}
-        id={0}
-        Percentage={props.Percentage}
-        Success={props.Success}
-      />
-      <div className="partonewrapper">
+    <nav
+      className={`md:translate-x-0 md:relative absolute text-3xl side-nav md:flex flex-col ml-3 gap-2 px-2  w-56  visiblescrollbar resize-x md:z-10 ${
+        props.mobile
+          ? "-translate-x-0 z-10 bottom-0 top-0  left-0 ransition-all w-4/5"
+          : "-translate-x-56"
+      }`}
+    >
+      <div className="md:block hidden z-50">
+        <FolderOperationModel
+          handlecreatefilesdropdown={props.handlecreatefilesdropdown}
+          Handlecreatefilesdropdown={props.Handlecreatefilesdropdown}
+          handleclick={props.handleclick}
+          currentfolder={props.currentfolder}
+          forcereload={props.forcereload}
+          forceloading={props.forceloading}
+          icon={<AiOutlinePlus className="text-2xl font" />}
+          dropdown={false}
+          dropdownplace={props.place}
+          id={0}
+          Percentage={props.Percentage}
+          Success={props.Success}
+        />
+      </div>
+      <div className="partonewrapper md:block hidden">
         <div className="showwrapper">
           <div className="folder">
             <Nav
@@ -112,6 +121,54 @@ const Sidenav = (props: any) => {
           }
           nameOfTheComponent={"Computer"}
           showArrow={true}
+        />
+      </div>
+      <div className="mobilenavimg py-5 flex flex-col gap-2 md:hidden">
+        <img
+          src={auth.user.photoURL}
+          alt=""
+          className=" object-cover rounded-full w-14 aspect-square "
+        />
+        <p className="mail text-base">{auth.user.email}</p>
+      </div>
+      <div className="moblienav md:hidden ">
+        <Sidenav_sub_component
+          handleclick={handleclick}
+          expand={expand}
+          image={
+            <svg
+              className="a-s-fa-Ha-pa c-qd"
+              width="24px"
+              height="24px"
+              viewBox="0 0 24 24"
+              fill="#757575"
+              focusable="false"
+            >
+              <path d="M19 2H5C3.9 2 3 2.9 3 4V20C3 21.1 3.9 22 5 22H19C20.1 22 21 21.1 21 20V4C21 2.9 20.1 2 19 2ZM19 20H5V19H19V20ZM19 17H5V4H19V17Z"></path>
+              <path d="M13.1215 6H10.8785C10.5514 6 10.271 6.18692 10.0841 6.46729L7.14019 11.6075C7 11.8878 7 12.215 7.14019 12.4953L8.26168 14.4579C8.40187 14.7383 8.72897 14.9252 9.05608 14.9252H15.0374C15.3645 14.9252 15.6449 14.7383 15.8318 14.4579L16.9533 12.4953C17.0935 12.215 17.0935 11.8878 16.9533 11.6075L13.9159 6.46729C13.7757 6.18692 13.4486 6 13.1215 6ZM10.1776 12.0748L12.0467 8.8972L13.8692 12.0748H10.1776Z"></path>
+            </svg>
+          }
+          nameOfTheComponent={"Drive"}
+          showArrow={false}
+        />
+        <Sidenav_sub_component
+          handleclick={handleclick}
+          expand={expand}
+          image={
+            <svg
+              className=" c-qd "
+              width="20px"
+              height="20px"
+              viewBox="0 0 24 24"
+              fill="#00000"
+              focusable="false"
+            >
+              <path d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4V6zm19 2h-6c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1zm-1 9h-4v-7h4v7z"></path>
+            </svg>
+          }
+          nameOfTheComponent={"Computer"}
+          showArrow={false}
         />
       </div>
       <div className="partTwoWrapper mt-3">
@@ -184,7 +241,7 @@ const Sidenav = (props: any) => {
           showArrow={false}
         />
       </div>
-      <div className="partThreeWrapper mt-3">
+      <div className={`partThreeWrapper mt-3 md:block hidden`}>
         <Sidenav_sub_component
           handleclick={handleclick}
           expand={expand}

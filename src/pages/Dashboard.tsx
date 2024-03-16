@@ -1,4 +1,6 @@
 import {
+  FocusEvent,
+  KeyboardEvent,
   MouseEvent,
   useCallback,
   useContext,
@@ -59,6 +61,17 @@ const Dashboard = () => {
   );
   const [percentage, setPercentage] = useState<number>(0);
   const [success, setSuccess] = useState<boolean>(false);
+  const [mobsearch, setmobsearch] = useState<boolean>(false);
+  const [mobile, setmobile] = useState<boolean>(false);
+
+  const [appClick, setAppClick] = useState<boolean>(false);
+  const [appSettings, setAppSettings] = useState<boolean>(false);
+  const [appQuestionMark, setAppQuestionMark] = useState<boolean>(false);
+  const [appInput, setAppInput] = useState<boolean>(false);
+  const [searchData, setSearchData] = useState<any>([""]);
+  const [showMore, setShowMore] = useState<boolean>(false);
+  const inputref = useRef<HTMLInputElement>(null);
+
   const parentref = useRef<HTMLDivElement>(null);
   console.log(pervalue?.percentage);
   console.log(percentage, success);
@@ -221,6 +234,23 @@ const Dashboard = () => {
     setHandleLogoutDropdown(false);
     sethandlecreatefilesdropdown(false);
     setdropdown({ id: "", state: false });
+    if (mobile) {
+      setmobile(false);
+      return;
+    }
+    if (appClick) {
+      setAppClick(false);
+      return;
+    }
+    if (appSettings) {
+      setAppSettings(false);
+      return;
+    }
+    if (appQuestionMark) {
+      setAppQuestionMark(false);
+      return;
+    }
+
     // setShowmydrive(false);
   };
   const handlelogoutdropdown = () => {
@@ -273,6 +303,49 @@ const Dashboard = () => {
     }
     return value.slice(0, nu) + "...";
   };
+  const handleAppClick = () => {
+    setAppClick(!appClick);
+  };
+  const handleSettings = () => {
+    setAppSettings(!appSettings);
+  };
+  const handleQuestionMark = () => {
+    setAppQuestionMark(!appQuestionMark);
+  };
+  const handleAppInput = async (e: FocusEvent<HTMLInputElement, Element>) => {
+    e.stopPropagation();
+    inputref.current!.placeholder = "Search in Drive";
+    setAppInput(true);
+  };
+  // TODO: ass search funcitonality
+  const handleInputSearchClick = (
+    e: MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    let inputVal = inputref.current?.value;
+    inputVal = e.currentTarget.innerText;
+    console.log(inputVal);
+    inputref.current!.placeholder = e.currentTarget.innerText;
+    setAppInput(false);
+    // inputref.current!.placeholder = "Search in Drive";
+
+    return;
+  };
+  const handlesearchkeyup = async (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const val = inputref.current?.value;
+      if (val === "" || val === undefined || val === null) {
+        return;
+      }
+      setSearchData([...searchData, val]);
+
+      inputref.current!.value = "";
+      setAppInput(false);
+      inputref.current?.blur();
+      console.log(showMore);
+
+      return;
+    }
+  };
   useEffect(() => {
     const token = async () => {
       await storeFCMToken(auth.user);
@@ -288,18 +361,45 @@ const Dashboard = () => {
         </div>
       ) : (
         <>
-          <main className="md:block hidden" onClick={Destroy}>
+          <main
+            className={`md:block ${mobile && "overflow-hidden"}`}
+            onClick={Destroy}
+          >
             {/* <div className="relative bg-red-600">
               <Toast upload={percentage} success={success} />
             </div> */}
+
             <TopNav
               logo={logo}
               handleLogoutDropdown={handlelogoutdropdown}
               HandleLogoutDropdown={HandleLogoutDropdown}
               Photo={auth.user.photoURL}
               logOut={auth}
+              handleSelected={handleSelected}
+              seleted={seleted}
+              list={list}
+              grid={grid}
+              setmobsearch={setmobsearch}
+              setmobile={setmobile}
+              mobile={mobile}
+              mobsearch={mobsearch}
+              handleAppClick={handleAppClick}
+              handlesearchkeyup={handlesearchkeyup}
+              handleInputSearchClick={handleInputSearchClick}
+              handleAppInput={handleAppInput}
+              handleQuestionMark={handleQuestionMark}
+              handleSettings={handleSettings}
+              appInput={appInput}
+              setShowMore={setShowMore}
+              searchData={searchData}
+              setSearchData={setSearchData}
+              appClick={appClick}
+              appSettings={appSettings}
+              appQuestionMark={appQuestionMark}
+              inputref={inputref}
+              setAppInput={setAppInput}
             />
-            <main className="cursor-pointer h-[100vh] flex">
+            <main className={`cursor-pointer h-[100vh] flex  `}>
               <Sidenav
                 handlecreatefilesdropdown={handlecreatefilesdropdown}
                 Handlecreatefilesdropdown={Handlecreatefilesdropdown}
@@ -313,10 +413,15 @@ const Dashboard = () => {
                 place={place}
                 Percentage={setPercentage}
                 Success={setSuccess}
+                mobile={mobile}
               />
 
-              <div className="w-[70%] mx-auto flex flex-col gap-5">
-                <div className="folders ">
+              <div
+                className={`w-[70%] mx-auto flex flex-col gap-5  ${
+                  mobsearch ? "hidden" : "flex"
+                } `}
+              >
+                <div className="folders md:block hidden">
                   <div className="mydrive flex items-center justify-between">
                     <div className="flex items-center">
                       <button

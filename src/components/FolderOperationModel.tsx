@@ -10,18 +10,18 @@ import Model from "./Model";
 import Uploadfiles from "./Uploadfiles";
 import { folderOperationModelprops } from "../types/folderOperationModelProps";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 // import Toast from "./Toast";
 const FolderOperationModel = (props: folderOperationModelprops) => {
   const [percentage, setPercentage] = useState<number>(0);
   const [success, setSuccess] = useState<boolean>(false);
-  // console.log(percentage, success);
-  useMemo(() => {
-    props.Percentage(percentage);
-    props.Success(success);
-  }, [percentage]);
+  console.log(percentage, success);
+  // useMemo(() => {
+  //   props.Percentage(percentage);
+  //   props.Success(success);
+  // }, [percentage]);
   return (
-    <div className="Create_wrapper relative w-full flex z-10">
+    <div className="Create_wrapper relative w-full flex ">
       {
         <button
           className={` ${

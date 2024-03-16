@@ -33,7 +33,7 @@ const Dropdown = ({
     }
   };
   return (
-    <div className="absolute   z-10 transition-all w-[15rem]">
+    <div className="absolute   z-10 transition-all md:w-[15rem] w-full">
       {file.id === id && (
         <ul>
           <li className="val  list-none w-full hover:bg-white hover:text-black cursor-pointer transition-all px-2 py-2 border-2 border-b-black  pr-1 font-Abel uppercase flex items-center justify-between">

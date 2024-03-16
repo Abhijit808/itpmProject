@@ -8,6 +8,8 @@ import { Authprovider } from "../context/Authcontext";
 
 // import { Store } from "../queries/uploadfile";
 import { UploadFiles } from "../Hooks/useUploadFiles";
+import { Store } from "../queries/uploadfile";
+// import { UploadFile } from "../Hooks/UploadFile";
 interface RelativePath {
   name: string;
   id: string;
@@ -24,6 +26,7 @@ const upload = async (
   uid: number
 ) => {
   let count = 0;
+  let p;
   if (folder.path === undefined) {
     folder.path = [
       {
@@ -130,7 +133,8 @@ const upload = async (
           relativePath.name = Folder.foldername;
           relativePath.path = Folder.path;
         }
-        UploadFiles(
+
+        p = Store(
           uid.toString(),
           File,
           [
@@ -138,13 +142,16 @@ const upload = async (
             { id: relativePath.id, name: relativePath.name },
           ],
           relativePath.id
+          // handleloading,
+          // handlereload
         );
-        // console.log(store.id);
       }
       i++;
     }
   }
-  handleloading(false);
+  p?.then(() => {
+    handleloading(false);
+  });
   handlereload(false);
 };
 

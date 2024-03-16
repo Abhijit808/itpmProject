@@ -22,7 +22,7 @@ const Uploadfiles = ({
 }: {
   folders: folders | DocumentData;
   handlereload: (reload: boolean) => void;
-  handleloading: (reload: boolean) => void;
+  handleloading: (loading: boolean) => void;
   setPercentage: (value: number) => void;
   setSuccess: (value: boolean) => void;
 }) => {

@@ -10,6 +10,7 @@ export default {
       colors: {
         primary: "#EDF2FC",
         secondary: "#DFE4ED",
+        phone: "#c1c1c1;",
       },
       gridTemplateColumns: {
         // Simple 16 column grid
